@@ -238,6 +238,7 @@ const CONFIG = {
 
   TITLE: "⚽ Bayazit Fußball-Live",
   REFRESH_SEC: 60,          // wie oft die Seite neue Daten holt (Sekunden)
+  SAVER_REFRESH_SEC: 300,   // Gratis-Plan (100 Anfragen/Tag): automatisch alle 5 Minuten
   TZ: "Europe/Berlin",
 
   // Deutschland: ALLE deutschen Wettbewerbe der API (Bundesliga bis Regionalliga,
@@ -451,8 +452,19 @@ function leagueRank(l) {
   const c = countryOf(l);
   let ci = COUNTRY_ORDER.indexOf(c); if (ci < 0) ci = 900;
   const arr = c === "Germany" ? CONFIG.GERMANY_TOP : (CONFIG.LEAGUES[c] || []);
-  let li = arr.indexOf(l.id); if (li < 0) li = 80;
+  let li = arr.indexOf(l.id);
+  if (li < 0) li = c === "Germany" ? germanTier(l.name) : 80;
   return fav * 1e6 + ci * 100 + li;
+}
+// Deutsche Wettbewerbe nach Klasse sortieren: Regionalliga vor Oberliga usw.
+function germanTier(n) {
+  n = String(n || "");
+  if (/U19|U17|U21|Junioren|Youth|Jugend/i.test(n)) return 60;
+  if (/Frauen|Women|Femin/i.test(n)) return 50;
+  if (/^Regionalliga/i.test(n)) return 20;
+  if (/^Oberliga/i.test(n)) return 30;
+  if (/Pokal|Cup/i.test(n)) return 40;
+  return 45;
 }
 function groupFixtures(list) {
   const by = new Map();
@@ -542,7 +554,8 @@ function renderFoot() {
   const t = state.lastUpdate ? state.lastUpdate.toLocaleTimeString("de-DE") : "–";
   let u = "";
   if (state.usage) u = ` · API heute: ${nf(state.usage.current)} / ${nf(state.usage.limit_day)} Anfragen`;
-  $("#foot").innerHTML = `Stand: ${t} · automatische Aktualisierung alle ${CONFIG.REFRESH_SEC} s${u}<br>Daten: API-Football${DEMO_MODE ? " (Demo)" : ""}`;
+  const every = CONFIG.REFRESH_SEC >= 120 ? `${Math.round(CONFIG.REFRESH_SEC / 60)} min` : `${CONFIG.REFRESH_SEC} s`;
+  $("#foot").innerHTML = `Stand: ${t} · automatische Aktualisierung alle ${every}${state.saver ? " (Sparmodus Gratis-Plan, ↻ für sofort)" : ""}${u}<br>Daten: API-Football${DEMO_MODE ? " (Demo)" : ""}`;
 }
 
 async function loadList(silent) {
@@ -564,7 +577,15 @@ async function loadList(silent) {
   renderList(); renderFoot();
 }
 async function loadUsage() {
-  try { const r = await api("status"); if (r && r.requests) { state.usage = r.requests; renderFoot(); } } catch (e) {}
+  try {
+    const r = await api("status");
+    if (r && r.requests) {
+      state.usage = r.requests;
+      // Gratis-Plan (100/Tag): automatisch Sparmodus, damit das Kontingent den ganzen Tag reicht
+      if (r.requests.limit_day <= 100 && !state.saver) { state.saver = true; CONFIG.REFRESH_SEC = CONFIG.SAVER_REFRESH_SEC; }
+      renderFoot();
+    }
+  } catch (e) {}
 }
 
 /* ===================== Tore erkennen & melden ===================== */
