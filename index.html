@@ -238,6 +238,7 @@ const CONFIG = {
 
   TITLE: "⚽ Bayazit Fußball-Live",
   REFRESH_SEC: 60,          // wie oft die Seite neue Daten holt (Sekunden)
+  NORMAL_REFRESH_SEC: 60,
   SAVER_REFRESH_SEC: 300,   // Gratis-Plan (100 Anfragen/Tag): automatisch alle 5 Minuten
   TZ: "Europe/Berlin",
 
@@ -563,20 +564,45 @@ function renderFoot() {
   $("#foot").innerHTML = `Stand: ${t} · automatische Aktualisierung alle ${every}${state.saver ? " (Sparmodus Gratis-Plan, ↻ für sofort)" : ""}${u}<br>Daten: API-Football${DEMO_MODE ? " (Demo)" : ""}`;
 }
 
+// Tageslisten merken: andere Tage 30 Min., heute nur bis zur nächsten Aktualisierung
+const dayCache = new Map();
+let retryT;
+function setSaver(on) {
+  state.saver = on;
+  CONFIG.REFRESH_SEC = on ? CONFIG.SAVER_REFRESH_SEC : CONFIG.NORMAL_REFRESH_SEC;
+  store.set("saver", on);
+}
 async function loadList(silent) {
   const myDate = state.date;
-  if (!silent) { state.loaded = false; renderList(); }
+  const isToday = myDate === todayStr();
+  const c = dayCache.get(myDate);
+  if (!silent && c && (!isToday || Date.now() - c.at < CONFIG.REFRESH_SEC * 1000)) {
+    state.fixtures = c.list; state.error = null; state.loaded = true; state.lastUpdate = new Date(c.at);
+    renderList(); renderFoot(); return;
+  }
+  if (!silent) {
+    if (c) { state.fixtures = c.list; state.loaded = true; } else state.loaded = false;
+    renderList();
+  }
   try {
     const res = await api("fixtures", {date: myDate, timezone: CONFIG.TZ, _ids: ALL_IDS.join(","), _countries: CONFIG.GERMANY_ALL ? "Germany" : ""});
     if (myDate !== state.date) return;
     detectGoals(res || []);
     state.fixtures = res || [];
+    dayCache.set(myDate, {list: state.fixtures, at: Date.now()});
     state.error = null;
     state.lastUpdate = new Date();
   } catch (e) {
     if (myDate !== state.date) return;
     state.error = e.message;
-    if (!silent) state.fixtures = [];
+    if (/10 Abrufe pro Minute/.test(e.message)) {
+      if (!state.saver) setSaver(true);
+      state.error = "Minuten-Grenze des Gratis-Plans erreicht. Die Seite versucht es in 1 Minute automatisch erneut.";
+      clearTimeout(retryT);
+      retryT = setTimeout(() => { if (state.date === myDate) loadList(true); }, 65000);
+    }
+    // alte Ergebnisse stehen lassen statt leere Seite
+    if (!state.fixtures.length || state.fixtures[0] && ymd(new Date(state.fixtures[0].fixture.date)) !== myDate) state.fixtures = c ? c.list : [];
   }
   state.loaded = true;
   renderList(); renderFoot();
@@ -587,7 +613,7 @@ async function loadUsage() {
     if (r && r.requests) {
       state.usage = r.requests;
       // Gratis-Plan (100/Tag): automatisch Sparmodus, damit das Kontingent den ganzen Tag reicht
-      if (r.requests.limit_day <= 100 && !state.saver) { state.saver = true; CONFIG.REFRESH_SEC = CONFIG.SAVER_REFRESH_SEC; }
+      setSaver(r.requests.limit_day <= 100);
       renderFoot();
     }
   } catch (e) {}
@@ -1132,6 +1158,7 @@ $("#bell").addEventListener("click", async () => {
   state.notify = !state.notify;
   store.set("notify", state.notify);
   $("#bell").classList.toggle("on", state.notify);
+if (store.get("saver", false) && !DEMO_MODE) setSaver(true);
   if (state.notify && "Notification" in window && Notification.permission === "default") { try { await Notification.requestPermission(); } catch (e) {} }
   toast(state.notify ? "Tor-Meldungen für deine Favoriten sind an" : "Tor-Meldungen aus");
 });
@@ -1350,6 +1377,7 @@ const DEMO = (() => {
 $("#brand").textContent = CONFIG.TITLE;
 document.title = CONFIG.TITLE.replace(/^\W+/, "").trim() || "Fußball Live";
 $("#bell").classList.toggle("on", state.notify);
+if (store.get("saver", false) && !DEMO_MODE) setSaver(true);
 state._today = todayStr();
 renderDays();
 loadList().then(() => { startProgress(); timer = setTimeout(() => refresh(false), CONFIG.REFRESH_SEC * 1000); });
