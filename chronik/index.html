@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bayazit Fußball-Chronik</title>
+<meta name="theme-color" content="#f3f5f9">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/chronik-180.png">
+<link rel="icon" href="icons/chronik-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06080c;--card:#0c1017;--card2:#111723;--line:#1a2130;--txt:#e8edf5;--txt2:#c6cfdd;--mut:#8590a3;--acc:#f5c542;--acct:var(--acc);--hd:rgba(6,8,12,.9);--inset:#05070a;--grid:rgba(255,255,255,.022);--line2:#2a3346;--bk1:#0b1430;--bk2:#060a18;--bkl:#3a4a74;--mbbg:#0f1730;--mbb:#2c3a62;--mbc:#b9c3dc;--sheet:#0b0f16;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+html[data-th="light"]{--bg:#f3f5f9;--card:#ffffff;--card2:#eef1f6;--line:#dce2eb;--txt:#121826;--txt2:#333c4d;--mut:#5b6577;--acct:color-mix(in srgb,var(--acc) 58%,#000);--hd:rgba(243,245,249,.93);--inset:#eef1f6;--grid:rgba(0,0,0,.035);--line2:#cfd6e2;--bk1:#eef3fc;--bk2:#dfe7f6;--bkl:#9fb0d0;--mbbg:#ffffff;--mbb:#c8d3e6;--mbc:#3d4a63;--sheet:#ffffff}
+html[data-th="light"] .bt .lb,html[data-th="light"] .bt .arr{color:color-mix(in srgb,var(--c) 60%,#000)}
+html[data-th="light"] .bt .em{opacity:.28}
+html[data-th="light"] .card,html[data-th="light"] .bt,html[data-th="light"] .yt,html[data-th="light"] .kv>div,html[data-th="light"] .k{box-shadow:0 1px 3px rgba(16,24,40,.06)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 Inter,system-ui,sans-serif}
+body{background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/26px 26px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/26px 26px,radial-gradient(900px 420px at 80% -120px,color-mix(in srgb,var(--acc) 14%,transparent),transparent 70%),var(--bg);min-height:100vh;transition:background .3s}
+a{color:var(--acct);cursor:pointer;text-decoration:none}
+h1,h2,h3{font-family:var(--mono);letter-spacing:-.3px}
+h3{font-size:15px;margin:0 0 10px}
+header{position:sticky;top:0;z-index:30;background:var(--hd);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar1{display:flex;align-items:center;gap:10px;padding:10px 14px;max-width:1100px;margin:0 auto}
+.brand{font:800 15px var(--mono);letter-spacing:.5px;cursor:pointer;white-space:nowrap}
+.brand b{color:var(--acct)}.brand i{font-style:normal;color:var(--mut);font-weight:500}
+.sbtn{margin-left:auto;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;width:38px;height:36px;font-size:16px;cursor:pointer}
+#sq{display:none;flex:1;min-width:0;background:var(--card);border:1px solid var(--acc);color:var(--txt);border-radius:10px;padding:8px 12px;font:14px var(--mono);outline:none}
+body.srch #sq{display:block}body.srch .brand i{display:none}
+.crumbs{max-width:1100px;margin:0 auto;padding:0 14px 9px;font:12px var(--mono);color:var(--mut);white-space:nowrap;overflow-x:auto}
+.crumbs b{color:var(--txt)}
+main{max-width:1100px;margin:0 auto;padding:14px 14px 40px}
+.ph{margin:4px 0 14px}.ph h1{margin:4px 0 4px;font-size:25px;line-height:1.15}.ph p{margin:0;color:var(--mut);font-size:13.5px}
+.lb{font:700 10.5px var(--mono);letter-spacing:1px;color:var(--acct);text-transform:uppercase}
+.lb2{font:700 10.5px var(--mono);letter-spacing:1px;color:var(--mut)}
+.lb.sec{margin:16px 0 8px}
+.mut{color:var(--mut)}.sm{font-size:12.5px}
+.ticker{display:flex;gap:18px;overflow-x:auto;white-space:nowrap;font:600 11px var(--mono);color:var(--mut);padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:12px;scrollbar-width:none}
+.ticker b{color:var(--txt)}
+.bento{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:760px){.bento{grid-template-columns:repeat(4,1fr)}}
+.bt{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;min-height:122px;cursor:pointer;transition:.18s}
+.bt.big{grid-column:span 2;min-height:142px}
+.bt:before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:var(--c)}
+.bt:after{content:"";position:absolute;inset:0;background:radial-gradient(260px 120px at 100% 100%,color-mix(in srgb,var(--c) 16%,transparent),transparent 70%);pointer-events:none}
+.bt .lb{color:var(--c)}
+.bt .tt{font:800 17px var(--mono);margin-top:8px;line-height:1.15;position:relative;z-index:1}
+.bt.big .tt{font-size:22px}
+.bt .st{font-size:12px;color:var(--mut);margin-top:8px;position:relative;z-index:1}
+.bt .hl{color:var(--txt);font-weight:600}
+.bt .em{position:absolute;right:-4px;bottom:-12px;font-size:62px;opacity:.2}
+.bt .arr{position:absolute;right:12px;top:10px;font:700 14px var(--mono);color:var(--c)}
+.bt:hover,.bt:active{border-color:var(--c);transform:translateY(-2px)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.fact{border-left:3px solid var(--acc)}
+.kp{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:12px;color:var(--mut)}
+.k b{display:block;font:800 18px var(--mono);color:var(--acct)}
+.seg{display:flex;gap:4px;background:var(--inset);border:1px solid var(--line);border-radius:12px;padding:4px;margin:12px 0;overflow-x:auto;scrollbar-width:none}
+.seg button{flex:1;white-space:nowrap;background:none;border:0;color:var(--mut);font:700 12px var(--mono);padding:9px 10px;border-radius:9px;cursor:pointer}
+.seg button.on{background:var(--acc);color:#0a0a0a}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;scrollbar-width:none}
+.chip{flex:none;background:var(--card);border:1px solid var(--line);color:var(--mut);font:700 11.5px var(--mono);padding:6px 10px;border-radius:999px;cursor:pointer}
+.chip.on{color:#0a0a0a;background:var(--acc);border-color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.yt{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;transition:.15s;min-height:104px}
+.yt:hover,.yt:active{border-color:var(--acc);box-shadow:0 0 22px -8px var(--acc)}
+.yt .y{font:800 24px var(--mono);color:var(--acct);line-height:1}
+.yt .h{position:absolute;top:11px;right:11px;font-size:13px}
+.yt .w{display:flex;align-items:center;gap:6px;margin-top:10px;font-weight:700;font-size:14px;line-height:1.2}
+.yt .bf{font-size:21px}
+.yt .s{font:11px var(--mono);color:var(--mut);margin-top:5px}
+.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 14%,var(--card)),var(--card) 60%);border:1px solid color-mix(in srgb,var(--acc) 40%,var(--line));border-radius:18px;padding:16px;margin-bottom:4px}
+.champ{display:flex;align-items:center;gap:14px;margin-top:10px;cursor:pointer}
+.bigflag{font-size:52px;line-height:1}
+.h1{font:800 26px var(--mono);line-height:1.1;margin:2px 0}
+.yrnav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:8px}
+.btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:9px 13px;font:700 12.5px var(--mono);cursor:pointer}
+.btn:hover{border-color:var(--acc)}.btn.sm{padding:6px 10px;font-size:11.5px}.btn.pri{background:var(--acc);color:#0a0a0a;border-color:var(--acc)}
+.next{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fin-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:10px}
+.fin-row .t{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;cursor:pointer;font-size:14px}
+.fin-row .bf{font-size:34px;line-height:1}
+.fin-row .sc{font:800 18px var(--mono);background:var(--inset);border:1px solid var(--line);border-radius:10px;padding:6px 10px;text-align:center;max-width:150px}
+.fin-row.big .bf{font-size:46px}.fin-row.big .t{font-size:16px}
+.pod{display:flex;align-items:center;gap:9px;padding:9px 2px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14.5px}
+.pod:last-child{border-bottom:0}.pod .mut{margin-left:auto;font-size:12px}.pod .arr{color:var(--mut)}
+.pod .bf{font-size:20px}
+.md{min-width:24px;height:24px;padding:0 5px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font:800 11px var(--mono);color:#0a0a0a}
+.m1{background:#f5c542}.m2{background:#cfd6dc}.m3{background:#d08a4a}.m4{background:#3a4559;color:#fff}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.kv>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:3px}
+.kv span{font:700 10px var(--mono);color:var(--mut);letter-spacing:.6px;text-transform:uppercase}
+.kv b{font-size:14px}.kv i{font-style:normal;color:var(--acct);font:600 12px var(--mono)}
+.note{background:color-mix(in srgb,var(--acc) 8%,transparent);border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);border-radius:12px;padding:10px 12px;font-size:13.5px;margin-bottom:10px}
+.yr{display:inline-block;font:700 11.5px var(--mono);background:var(--card2);border:1px solid var(--line);border-radius:7px;padding:3px 7px;margin:2px 1px;color:var(--txt)}
+a.yr:hover{border-color:var(--acc)}.yr.cur{background:var(--acc);color:#0a0a0a;border-color:var(--acc)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.bars{display:grid;gap:6px}
+.bar{display:grid;grid-template-columns:136px 1fr 30px;gap:8px;align-items:center;font-size:13px;cursor:pointer}
+.bar .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t{height:12px;background:var(--inset);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.bar .t i{display:block;height:100%;width:0;background:var(--acc);transition:width .8s}
+.bar .n{font:800 14px var(--mono);text-align:right;color:var(--acct)}
+.tb{width:100%;border-collapse:collapse;font-size:13.5px}
+.tb th{text-align:left;font:700 10px var(--mono);letter-spacing:.6px;text-transform:uppercase;color:var(--mut);padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tb td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tb tr[data-go]{cursor:pointer}.tb tr:hover td{background:rgba(255,255,255,.02)}
+.tb td.y{font:800 14px var(--mono);color:var(--acct);white-space:nowrap}
+.mrow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;cursor:pointer}
+.mrow:last-child{border-bottom:0}.mrow .a{text-align:right;font-weight:700}.mrow .b{color:var(--mut)}
+.mrow .sc{font:700 12px var(--mono);background:var(--inset);border:1px solid var(--line);border-radius:7px;padding:3px 7px;white-space:nowrap}
+.mrow .inf{grid-column:1/-1;text-align:center;font:11px var(--mono);color:var(--mut);margin-top:-3px}
+.mrow.mini{font-size:12px}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.gt{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.gt th{font:700 9.5px var(--mono);color:var(--mut);text-align:left;padding:4px}
+.gt td{padding:6px 4px;border-top:1px solid var(--line)}.gt tr{cursor:pointer}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line2)}.dot.q{background:var(--acc)}.dot.q3{background:color-mix(in srgb,var(--acc) 45%,var(--line2))}
+.bkcard{padding:10px}
+.bktools{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+.bkw{overflow-x:auto;overflow-y:hidden;background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 16%,transparent),transparent),linear-gradient(160deg,var(--bk1),var(--bk2));border-radius:12px;border:1px solid var(--line)}
+.bk{position:relative}
+.bk svg{position:absolute;left:0;top:0}.bk path{fill:none;stroke:var(--bkl);stroke-width:1.6}
+.mb{position:absolute;width:34px;background:var(--mbbg);border:1px solid var(--mbb);border-radius:8px;display:flex;flex-direction:column;cursor:pointer;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.mb:hover{border-color:var(--acc)}
+.tm{height:29px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.tm+.tm{border-top:1px solid var(--mbb)}
+.tm .f{font-size:17px}.tm .c{font:700 7.5px var(--mono);color:var(--mbc);margin-top:2px}
+.tm.lose{opacity:.33;filter:grayscale(.7)}
+.mb.fin{flex-direction:row;border:1.5px solid var(--acc);box-shadow:0 0 22px -4px var(--acc)}
+.mb.fin .tm{flex:1;height:100%}.mb.fin .tm+.tm{border-top:0;border-left:1px solid var(--mbb)}.mb.fin .f{font-size:22px}
+.mb.p3{border-color:#d08a4a;box-shadow:none}
+.rl{position:absolute;top:4px;text-align:center;font:800 10px var(--mono);color:var(--acct)}
+.cup{position:absolute;text-align:center;font-size:46px;filter:drop-shadow(0 0 14px rgba(245,197,66,.55))}
+.fsc{position:absolute;text-align:center;font:800 9.5px var(--mono);color:var(--txt)}
+.p3l{position:absolute;text-align:center;font:700 9px var(--mono);color:#d08a4a}
+.list{display:grid;gap:8px}
+.card.row{display:flex;align-items:center;gap:12px;margin:0;cursor:pointer}
+.card.row .y{font:800 15px var(--mono);color:var(--acct);min-width:46px}.card.row .arr{margin-left:auto;color:var(--mut)}
+.rek{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.rek .card{margin:0}
+.val{font:800 21px var(--mono);color:var(--acct);margin:4px 0;line-height:1.15}
+.lex summary{font:800 15px var(--mono);cursor:pointer;color:var(--txt)}.lex p{margin:8px 0 0;color:var(--txt2)}.lex{margin:0}
+.quiz .opt{display:block;width:100%;text-align:left;margin:6px 0;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:12px;padding:12px 14px;font-size:15px;cursor:pointer}
+.quiz .opt.ok{background:#16a34a;border-color:#22c55e;color:#fff}.quiz .opt.no{background:#dc2626;border-color:#ef4444;color:#fff}
+.prog{height:5px;background:var(--inset);border-radius:5px;overflow:hidden;margin:10px 0}.prog i{display:block;height:100%;background:var(--acc)}
+.res{padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}.res small{color:var(--mut)}
+.tag{display:inline-block;font:700 10px var(--mono);border:1px solid var(--acc);color:var(--acct);border-radius:6px;padding:1px 6px;margin-right:6px}
+.psec{margin-top:14px}
+#sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
+#sheet.open{opacity:1;pointer-events:auto}
+#sheet .sp{width:100%;max-width:640px;max-height:86vh;overflow:auto;background:var(--sheet);border:1px solid var(--line);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 16px 28px;transform:translateY(30px);transition:.2s;position:relative}
+#sheet.open .sp{transform:none}
+#sheet .x{position:sticky;top:0;float:right;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;width:34px;height:32px;cursor:pointer;z-index:2}
+.grip{width:40px;height:4px;border-radius:4px;background:var(--line2);margin:-6px auto 10px}
+.thg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 14px}
+.thb{background:var(--card2);border:2px solid var(--line);color:var(--txt);border-radius:14px;padding:14px 6px;font:800 13px var(--mono);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+.thb span{font-size:26px}.thb.on{border-color:var(--acc);box-shadow:0 0 0 2px color-mix(in srgb,var(--acc) 35%,transparent)}
+.sw{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
+.sw button{width:36px;height:36px;border-radius:10px;border:2px solid var(--line);cursor:pointer}
+.sw button.on{border-color:var(--txt);transform:scale(1.08)}
+.sw input[type=color]{width:44px;height:38px;border:1px solid var(--line);border-radius:10px;background:var(--card2);padding:2px;cursor:pointer}
+.tgl{display:flex;align-items:center;gap:10px;font-size:14px;margin:6px 0 4px;cursor:pointer}.tgl input{width:20px;height:20px;accent-color:var(--acc)}
+.sbtn+.sbtn{margin-left:0}
+footer{max-width:1100px;margin:0 auto;padding:0 14px 30px;color:var(--mut);font:11px var(--mono);text-align:center}
+@media(max-width:600px){.hm{display:none}.bar{grid-template-columns:118px 1fr 26px}.h1{font-size:22px}.bigflag{font-size:44px}.ph h1{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="bar1"><div class="brand" data-go="">⚽ <b>FUSSBALL</b><i>//CHRONIK</i></div><input id="sq" type="search" placeholder="Verein, Spieler, Land, Jahr …" autocomplete="off"><button class="sbtn" id="sbtn" aria-label="Suche">🔎</button><button class="sbtn" id="tbtn" aria-label="Darstellung">🎨</button></div>
+ <div class="crumbs" id="crumbs"></div>
+</header>
+<main id="app"></main>
+<div id="sheet"><div class="sp"><button class="x" data-close>✕</button><div class="grip"></div><div class="sb"></div></div></div>
+<footer>Daten bis Saison 2025/26 · WM 2026 · Ballon d'Or 2026 — n.V. = nach Verlängerung · i.E. = im Elfmeterschießen</footer>
+<script>
+
+/* ================== HILFEN: FLAGGEN ================== */
+const NAT={Uruguay:"UY",Argentinien:"AR",Italien:"IT",Tschechoslowakei:"CZ",Deutschland:"DE",Österreich:"AT",Ungarn:"HU",Brasilien:"BR",Schweden:"SE",Spanien:"ES",Frankreich:"FR",England:"ENG",Portugal:"PT",Sowjetunion:"SU",Niederlande:"NL",Polen:"PL",Belgien:"BE",Kroatien:"HR",Türkei:"TR",Südkorea:"KR",Japan:"JP",USA:"US",Kanada:"CA",Mexiko:"MX",Marokko:"MA",Jugoslawien:"YU",Chile:"CL",Schweiz:"CH",Dänemark:"DK",Griechenland:"GR",Tschechien:"CZ",Russland:"RU",Wales:"WAL",Island:"IS",Bulgarien:"BG",Rumänien:"RO",Irland:"IE",Kamerun:"CM",Kolumbien:"CO","Costa Rica":"CR",Senegal:"SN",Ghana:"GH",Paraguay:"PY",Ukraine:"UA",Nordirland:"NIR",Nordkorea:"KP",Peru:"PE",Bolivien:"BO",Schottland:"SCO",Liberia:"LR",Norwegen:"NO",Südafrika:"ZA",Katar:"QA",Georgien:"GE",Ecuador:"EC",China:"CN",Europa:"EU",Serbien:"RS",Slowakei:"SK"};
+const CODE2NAME={};for(const k in NAT)if(!CODE2NAME[NAT[k]])CODE2NAME[NAT[k]]=k;CODE2NAME.CZ="Tschechien";CODE2NAME.RS="Serbien";
+const CLUB={
+ES:["Real Madrid","FC Barcelona","Atlético Madrid","FC Valencia","FC Sevilla","Espanyol Barcelona","Athletic Bilbao","Deportivo Alavés","FC Villarreal","Real Betis","Rayo Vallecano","Real Saragossa"],
+IT:["AC Mailand","Inter Mailand","Juventus Turin","AS Rom","AC Florenz","Lazio Rom","Sampdoria Genua","SSC Neapel","AC Parma","FC Turin","Atalanta Bergamo"],
+ENG:["Manchester United","FC Liverpool","FC Chelsea","FC Arsenal","Tottenham Hotspur","Nottingham Forest","Aston Villa","Leeds United","Ipswich Town","Wolverhampton Wanderers","FC Fulham","FC Middlesbrough","West Ham United","Manchester City","Crystal Palace","FC Everton","Blackpool"],
+DE:["Bayern München","Borussia Dortmund","Hamburger SV","Eintracht Frankfurt","Borussia Mönchengladbach","Bayer Leverkusen","Schalke 04","Werder Bremen","1. FC Köln","VfB Stuttgart","SC Freiburg","1. FC Magdeburg","1860 München","Eintracht Braunschweig","1. FC Nürnberg","1. FC Kaiserslautern","VfL Wolfsburg","RB Leipzig","Bayer Uerdingen","Hannover 96","Fortuna Düsseldorf","Kickers Offenbach","Karlsruher SC","Rot-Weiss Essen","Schwarz-Weiß Essen","MSV Duisburg","VfL Bochum","Stuttgarter Kickers","Hertha BSC Amateure","Energie Cottbus","Union Berlin","Alemannia Aachen","Arminia Bielefeld","VfL Wolfsburg"],
+FR:["Stade Reims","AS Saint-Étienne","Olympique Marseille","AS Monaco","Paris Saint-Germain","Girondins Bordeaux","SC Bastia","OSC Lille"],
+PT:["Benfica Lissabon","FC Porto","Sporting Lissabon","Sporting Braga"],
+NL:["Ajax Amsterdam","Feyenoord Rotterdam","PSV Eindhoven","Twente Enschede","AZ Alkmaar"],
+SCO:["Celtic Glasgow","Glasgow Rangers","Dundee United","FC Aberdeen"],
+BE:["Club Brügge","RSC Anderlecht","KV Mechelen"],
+RS:["Partizan Belgrad","Roter Stern Belgrad"],RO:["Steaua Bukarest"],GR:["Panathinaikos Athen","Olympiakos Piräus"],SE:["Malmö FF","IFK Göteborg"],TR:["Galatasaray Istanbul"],
+RU:["ZSKA Moskau","Zenit St. Petersburg","Dynamo Moskau"],UA:["Schachtar Donezk","Dnipro Dnipropetrowsk","Dynamo Kiew"],HU:["Videoton","Ferencváros"],AT:["Austria Salzburg"],
+SK:["Slovan Bratislava"],GE:["Dinamo Tiflis"],CZ:["Dukla Prag"],BR:["Corinthians","São Paulo FC","Internacional Porto Alegre"],US:["Inter Miami"]};
+const CLUBMAP={};for(const c in CLUB)CLUB[c].forEach(n=>CLUBMAP[n]=c);
+const SPECIAL={ENG:"🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}",SCO:"🏴\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}",WAL:"🏴\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}",NIR:"🇬🇧",SU:"🟥",YU:"🟦",EU:"🇪🇺"};
+function flagCode(c){if(!c)return"";if(SPECIAL[c])return SPECIAL[c];return String.fromCodePoint(...[...c].map(ch=>0x1F1E6+ch.charCodeAt(0)-65));}
+function fl(name){if(!name)return"";const c=NAT[name]||CLUBMAP[name];return c?flagCode(c)+" ":"";}
+function hostFl(h){return h.split(/ & |, /).map(x=>fl(x.replace(/\s*\(.*\)/,"").trim())).join("")}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const parse=(txt,keys)=>txt.trim().split("\n").map(l=>{const p=l.split("|");const o={};keys.forEach((k,i)=>o[k]=(p[i]??"").trim());return o});
+
+/* ================== DATEN: WELTMEISTERSCHAFT ================== */
+const WM=[
+{y:1930,h:"Uruguay",t:13,w:"Uruguay",f:"Argentinien",s:"4:2",p3:"USA",p4:"Jugoslawien",p3s:"kein Spiel um Platz 3",ts:"Guillermo Stábile (ARG)",tg:8,sf:[["Uruguay","Jugoslawien","6:1"],["Argentinien","USA","6:1"]],n:"Erste WM überhaupt – Gastgeber Uruguay feierte 100 Jahre Verfassung."},
+{y:1934,h:"Italien",t:16,w:"Italien",f:"Tschechoslowakei",s:"2:1 n.V.",p3:"Deutschland",p4:"Österreich",p3s:"3:2",ts:"Oldřich Nejedlý (TCH)",tg:5,qf:[["Italien","Spanien","1:0 (Wdh.)"],["Österreich","Ungarn","2:1"],["Deutschland","Schweden","2:1"],["Tschechoslowakei","Schweiz","3:2"]],sf:[["Italien","Österreich","1:0"],["Tschechoslowakei","Deutschland","3:1"]],n:"Deutschland wurde bei seiner ersten WM gleich Dritter."},
+{y:1938,h:"Frankreich",t:15,w:"Italien",f:"Ungarn",s:"4:2",p3:"Brasilien",p4:"Schweden",p3s:"4:2",ts:"Leônidas (BRA)",tg:7,sf:[["Italien","Brasilien","2:1"],["Ungarn","Schweden","5:1"]],n:"Italien verteidigte als erstes Land den WM-Titel."},
+{y:1950,h:"Brasilien",t:13,w:"Uruguay",f:"Brasilien",s:"2:1",p3:"Schweden",p4:"Spanien",p3s:"Finalrunde",ts:"Ademir (BRA)",tg:8,n:"Kein Finale, sondern eine Finalrunde. Das entscheidende 2:1 von Uruguay im Maracanã heißt bis heute „Maracanaço“."},
+{y:1954,h:"Schweiz",t:16,w:"Deutschland",f:"Ungarn",s:"3:2",p3:"Österreich",p4:"Uruguay",p3s:"3:1",ts:"Sándor Kocsis (HUN)",tg:11,qf:[["Deutschland","Jugoslawien","2:0"],["Österreich","Schweiz","7:5"],["Uruguay","England","4:2"],["Ungarn","Brasilien","4:2"]],sf:[["Deutschland","Österreich","6:1"],["Ungarn","Uruguay","4:2 n.V."]],n:"„Das Wunder von Bern“ – Helmut Rahn schoss das 3:2 gegen die Favoriten aus Ungarn."},
+{y:1958,h:"Schweden",t:16,w:"Brasilien",f:"Schweden",s:"5:2",p3:"Frankreich",p4:"Deutschland",p3s:"6:3",ts:"Just Fontaine (FRA)",tg:13,qf:[["Frankreich","Nordirland","4:0"],["Deutschland","Jugoslawien","1:0"],["Schweden","Sowjetunion","2:0"],["Brasilien","Wales","1:0"]],sf:[["Brasilien","Frankreich","5:2"],["Schweden","Deutschland","3:1"]],n:"Der 17-jährige Pelé wurde Weltmeister. Fontaines 13 Tore sind bis heute Turnier-Rekord."},
+{y:1962,h:"Chile",t:16,w:"Brasilien",f:"Tschechoslowakei",s:"3:1",p3:"Chile",p4:"Jugoslawien",p3s:"1:0",ts:"Garrincha, Vavá u. a. (je 4)",tg:4,qf:[["Brasilien","England","3:1"],["Chile","Sowjetunion","2:1"],["Jugoslawien","Deutschland","1:0"],["Tschechoslowakei","Ungarn","1:0"]],sf:[["Brasilien","Chile","4:2"],["Tschechoslowakei","Jugoslawien","3:1"]],n:"Brasilien verteidigte den Titel – Garrincha ersetzte den verletzten Pelé."},
+{y:1966,h:"England",t:16,w:"England",f:"Deutschland",s:"4:2 n.V.",p3:"Portugal",p4:"Sowjetunion",p3s:"2:1",ts:"Eusébio (POR)",tg:9,qf:[["England","Argentinien","1:0"],["Deutschland","Uruguay","4:0"],["Portugal","Nordkorea","5:3"],["Sowjetunion","Ungarn","2:1"]],sf:[["Deutschland","Sowjetunion","2:1"],["England","Portugal","2:1"]],n:"Das „Wembley-Tor“ zum 3:2 – bis heute umstritten, ob der Ball hinter der Linie war."},
+{y:1970,h:"Mexiko",t:16,w:"Brasilien",f:"Italien",s:"4:1",p3:"Deutschland",p4:"Uruguay",p3s:"1:0",ts:"Gerd Müller (GER)",tg:10,qf:[["Deutschland","England","3:2 n.V."],["Italien","Mexiko","4:1"],["Brasilien","Peru","4:2"],["Uruguay","Sowjetunion","1:0 n.V."]],sf:[["Italien","Deutschland","4:3 n.V."],["Brasilien","Uruguay","3:1"]],n:"Das „Jahrhundertspiel“ Italien – Deutschland 4:3 n.V. im Halbfinale. Pelé holte seinen 3. WM-Titel."},
+{y:1974,h:"Deutschland",t:16,w:"Deutschland",f:"Niederlande",s:"2:1",p3:"Polen",p4:"Brasilien",p3s:"1:0",ts:"Grzegorz Lato (POL)",tg:7,n:"Statt Halbfinale gab es eine zweite Gruppenphase. Gerd Müller schoss das Siegtor im Finale in München."},
+{y:1978,h:"Argentinien",t:16,w:"Argentinien",f:"Niederlande",s:"3:1 n.V.",p3:"Brasilien",p4:"Italien",p3s:"2:1",ts:"Mario Kempes (ARG)",tg:6,n:"Wieder mit zweiter Gruppenphase. Die Niederlande verloren ihr zweites WM-Finale in Folge."},
+{y:1982,h:"Spanien",t:24,w:"Italien",f:"Deutschland",s:"3:1",p3:"Polen",p4:"Frankreich",p3s:"3:2",ts:"Paolo Rossi (ITA)",tg:6,bp:"Paolo Rossi",sf:[["Italien","Polen","2:0"],["Deutschland","Frankreich","3:3 n.V., 5:4 i.E."]],n:"„Die Nacht von Sevilla“: erstes Elfmeterschießen der WM-Geschichte (Halbfinale)."},
+{y:1986,h:"Mexiko",t:24,w:"Argentinien",f:"Deutschland",s:"3:2",p3:"Frankreich",p4:"Belgien",p3s:"4:2 n.V.",ts:"Gary Lineker (ENG)",tg:6,bp:"Diego Maradona",qf:[["Argentinien","England","2:1"],["Belgien","Spanien","1:1 n.V., 5:4 i.E."],["Deutschland","Mexiko","0:0 n.V., 4:1 i.E."],["Frankreich","Brasilien","1:1 n.V., 4:3 i.E."]],sf:[["Argentinien","Belgien","2:0"],["Deutschland","Frankreich","2:0"]],n:"Maradonas „Hand Gottes“ und das „Tor des Jahrhunderts“ – beide im Viertelfinale gegen England."},
+{y:1990,h:"Italien",t:24,w:"Deutschland",f:"Argentinien",s:"1:0",p3:"Italien",p4:"England",p3s:"2:1",ts:"Salvatore Schillaci (ITA)",tg:6,bp:"Salvatore Schillaci",qf:[["Argentinien","Jugoslawien","0:0 n.V., 3:2 i.E."],["Italien","Irland","1:0"],["Deutschland","Tschechoslowakei","1:0"],["England","Kamerun","3:2 n.V."]],sf:[["Argentinien","Italien","1:1 n.V., 4:3 i.E."],["Deutschland","England","1:1 n.V., 4:3 i.E."]],n:"Andreas Brehme verwandelte im Finale von Rom den Elfmeter zum 1:0. Franz Beckenbauer wurde als Spieler und Trainer Weltmeister."},
+{y:1994,h:"USA",t:24,w:"Brasilien",f:"Italien",s:"0:0 n.V., 3:2 i.E.",p3:"Schweden",p4:"Bulgarien",p3s:"4:0",ts:"Hristo Stoitschkow (BUL) & Oleg Salenko (RUS)",tg:6,bp:"Romário",qf:[["Italien","Spanien","2:1"],["Bulgarien","Deutschland","2:1"],["Brasilien","Niederlande","3:2"],["Schweden","Rumänien","2:2 n.V., 5:4 i.E."]],sf:[["Italien","Bulgarien","2:1"],["Brasilien","Schweden","1:0"]],n:"Erstes WM-Finale, das im Elfmeterschießen entschieden wurde – Roberto Baggio schoss über das Tor."},
+{y:1998,h:"Frankreich",t:32,w:"Frankreich",f:"Brasilien",s:"3:0",p3:"Kroatien",p4:"Niederlande",p3s:"2:1",ts:"Davor Šuker (CRO)",tg:6,bp:"Ronaldo",qf:[["Brasilien","Dänemark","3:2"],["Niederlande","Argentinien","2:1"],["Frankreich","Italien","0:0 n.V., 4:3 i.E."],["Kroatien","Deutschland","3:0"]],sf:[["Brasilien","Niederlande","1:1 n.V., 4:2 i.E."],["Frankreich","Kroatien","2:1"]],n:"Zinédine Zidane köpfte zweimal im Finale. Erste WM mit 32 Teams."},
+{y:2002,h:"Südkorea & Japan",t:32,w:"Brasilien",f:"Deutschland",s:"2:0",p3:"Türkei",p4:"Südkorea",p3s:"3:2",ts:"Ronaldo (BRA)",tg:8,bp:"Oliver Kahn",qf:[["Brasilien","England","2:1"],["Deutschland","USA","1:0"],["Südkorea","Spanien","0:0 n.V., 5:3 i.E."],["Türkei","Senegal","1:0 Golden Goal"]],sf:[["Deutschland","Südkorea","1:0"],["Brasilien","Türkei","1:0"]],n:"Erste WM in Asien. Oliver Kahn wurde als erster Torwart bester Spieler des Turniers. Hakan Şükür traf nach 11 Sekunden – WM-Rekord."},
+{y:2006,h:"Deutschland",t:32,w:"Italien",f:"Frankreich",s:"1:1 n.V., 5:3 i.E.",p3:"Deutschland",p4:"Portugal",p3s:"3:1",ts:"Miroslav Klose (GER)",tg:5,bp:"Zinédine Zidane",qf:[["Deutschland","Argentinien","1:1 n.V., 4:2 i.E."],["Italien","Ukraine","3:0"],["Portugal","England","0:0 n.V., 3:1 i.E."],["Frankreich","Brasilien","1:0"]],sf:[["Italien","Deutschland","2:0 n.V."],["Frankreich","Portugal","1:0"]],n:"Das „Sommermärchen“. Zidane sah im Finale nach einem Kopfstoß gegen Materazzi Rot."},
+{y:2010,h:"Südafrika",t:32,w:"Spanien",f:"Niederlande",s:"1:0 n.V.",p3:"Deutschland",p4:"Uruguay",p3s:"3:2",ts:"Thomas Müller (GER)",tg:5,bp:"Diego Forlán",qf:[["Niederlande","Brasilien","2:1"],["Uruguay","Ghana","1:1 n.V., 4:2 i.E."],["Deutschland","Argentinien","4:0"],["Spanien","Paraguay","1:0"]],sf:[["Niederlande","Uruguay","3:2"],["Spanien","Deutschland","1:0"]],n:"Erste WM in Afrika. Andrés Iniesta schoss Spanien in der 116. Minute zum ersten Titel. Krake Paul tippte alle deutschen Spiele richtig."},
+{y:2014,h:"Brasilien",t:32,w:"Deutschland",f:"Argentinien",s:"1:0 n.V.",p3:"Niederlande",p4:"Brasilien",p3s:"3:0",ts:"James Rodríguez (COL)",tg:6,bp:"Lionel Messi",qf:[["Deutschland","Frankreich","1:0"],["Brasilien","Kolumbien","2:1"],["Argentinien","Belgien","1:0"],["Niederlande","Costa Rica","0:0 n.V., 4:3 i.E."]],sf:[["Deutschland","Brasilien","7:1"],["Argentinien","Niederlande","0:0 n.V., 4:2 i.E."]],n:"Das legendäre 7:1 im Halbfinale. Mario Götze schoss im Finale das Siegtor zum 4. Stern."},
+{y:2018,h:"Russland",t:32,w:"Frankreich",f:"Kroatien",s:"4:2",p3:"Belgien",p4:"England",p3s:"2:0",ts:"Harry Kane (ENG)",tg:6,bp:"Luka Modrić",qf:[["Frankreich","Uruguay","2:0"],["Belgien","Brasilien","2:1"],["England","Schweden","2:0"],["Kroatien","Russland","2:2 n.V., 4:3 i.E."]],sf:[["Frankreich","Belgien","1:0"],["Kroatien","England","2:1 n.V."]],n:"Erste WM mit Videobeweis (VAR). Deutschland schied als Titelverteidiger in der Vorrunde aus."},
+{y:2022,h:"Katar",t:32,w:"Argentinien",f:"Frankreich",s:"3:3 n.V., 4:2 i.E.",p3:"Kroatien",p4:"Marokko",p3s:"2:1",ts:"Kylian Mbappé (FRA)",tg:8,bp:"Lionel Messi",qf:[["Kroatien","Brasilien","1:1 n.V., 4:2 i.E."],["Argentinien","Niederlande","2:2 n.V., 4:3 i.E."],["Marokko","Portugal","1:0"],["Frankreich","England","2:1"]],sf:[["Argentinien","Kroatien","3:0"],["Frankreich","Marokko","2:0"]],n:"Erste Winter-WM. Eines der größten Finals aller Zeiten – Mbappé traf dreimal, Messi krönte sich doch noch."},
+{y:2026,h:"USA, Kanada & Mexiko",t:48,w:"Spanien",f:"Argentinien",s:"1:0 n.V.",p3:"England",p4:"Frankreich",p3s:"6:4",ts:"Kylian Mbappé (FRA)",tg:10,bp:"Rodri",sf:[["Spanien","Frankreich","Sieg"],["Argentinien","England","Sieg"]],n:"Erste WM mit 48 Teams und drei Gastgebern. Joker Ferran Torres schoss Spanien in New York/New Jersey zum 2. Titel. Mbappé wurde als erster Spieler zweimal WM-Torschützenkönig."}
+];
+
+/* ================== DATEN: EUROPAMEISTERSCHAFT ================== */
+const EM=[
+{y:1960,h:"Frankreich",t:4,w:"Sowjetunion",f:"Jugoslawien",s:"2:1 n.V.",p3:"Tschechoslowakei",p4:"Frankreich",p3s:"2:0",ts:"mehrere Spieler (je 2)",sf:[["Sowjetunion","Tschechoslowakei","3:0"],["Jugoslawien","Frankreich","5:4"]],n:"Erste EM – damals noch „Europapokal der Nationen“. Deutschland nahm nicht teil."},
+{y:1964,h:"Spanien",t:4,w:"Spanien",f:"Sowjetunion",s:"2:1",p3:"Ungarn",p4:"Dänemark",p3s:"3:1 n.V.",ts:"Bene, Novák (HUN), Pereda (ESP) – je 2",sf:[["Spanien","Ungarn","2:1 n.V."],["Sowjetunion","Dänemark","3:0"]]},
+{y:1968,h:"Italien",t:4,w:"Italien",f:"Jugoslawien",s:"2:0 (Wdh. nach 1:1 n.V.)",p3:"England",p4:"Sowjetunion",p3s:"2:0",ts:"Dragan Džajić (YUG)",sf:[["Italien","Sowjetunion","0:0 n.V., Münzwurf"],["Jugoslawien","England","1:0"]],n:"Italien kam per Münzwurf ins Finale – das Finale selbst wurde wiederholt."},
+{y:1972,h:"Belgien",t:4,w:"Deutschland",f:"Sowjetunion",s:"3:0",p3:"Belgien",p4:"Ungarn",p3s:"2:1",ts:"Gerd Müller (GER)",sf:[["Deutschland","Belgien","2:1"],["Sowjetunion","Ungarn","1:0"]],n:"Die Elf um Beckenbauer, Netzer und Müller gilt als eine der besten deutschen Mannschaften."},
+{y:1976,h:"Jugoslawien",t:4,w:"Tschechoslowakei",f:"Deutschland",s:"2:2 n.V., 5:3 i.E.",p3:"Niederlande",p4:"Jugoslawien",p3s:"3:2 n.V.",ts:"Dieter Müller (GER)",sf:[["Tschechoslowakei","Niederlande","3:1 n.V."],["Deutschland","Jugoslawien","4:2 n.V."]],n:"Antonín Panenka lupfte den entscheidenden Elfmeter – seitdem heißt so ein Schuss „Panenka“."},
+{y:1980,h:"Italien",t:8,w:"Deutschland",f:"Belgien",s:"2:1",p3:"Tschechoslowakei",p4:"Italien",p3s:"1:1, 9:8 i.E.",ts:"Klaus Allofs (GER)",n:"Horst Hrubesch köpfte beide Finaltore."},
+{y:1984,h:"Frankreich",t:8,w:"Frankreich",f:"Spanien",s:"2:0",p3:"Portugal",p4:"Dänemark",p3s:"HF",ts:"Michel Platini (FRA)",sf:[["Frankreich","Portugal","3:2 n.V."],["Spanien","Dänemark","1:1 n.V., 5:4 i.E."]],n:"Platini schoss 9 Tore – bis heute EM-Rekord für ein Turnier."},
+{y:1988,h:"Deutschland",t:8,w:"Niederlande",f:"Sowjetunion",s:"2:0",p3:"Deutschland",p4:"Italien",p3s:"HF",ts:"Marco van Basten (NED)",sf:[["Niederlande","Deutschland","2:1"],["Sowjetunion","Italien","2:0"]],n:"Van Bastens Volleytor im Finale gehört zu den schönsten Toren der Geschichte."},
+{y:1992,h:"Schweden",t:8,w:"Dänemark",f:"Deutschland",s:"2:0",p3:"Niederlande",p4:"Schweden",p3s:"HF",ts:"Brolin, Larsen, Riedle, Bergkamp (je 3)",sf:[["Dänemark","Niederlande","2:2 n.V., 5:4 i.E."],["Deutschland","Schweden","3:2"]],n:"Dänemark rückte kurzfristig für das ausgeschlossene Jugoslawien nach – und gewann sensationell."},
+{y:1996,h:"England",t:16,w:"Deutschland",f:"Tschechien",s:"2:1 Golden Goal",p3:"Frankreich",p4:"England",p3s:"HF",ts:"Alan Shearer (ENG)",bp:"Matthias Sammer",sf:[["Tschechien","Frankreich","0:0 n.V., 6:5 i.E."],["Deutschland","England","1:1 n.V., 6:5 i.E."]],n:"Oliver Bierhoff erzielte das erste Golden Goal in einem großen Finale."},
+{y:2000,h:"Belgien & Niederlande",t:16,w:"Frankreich",f:"Italien",s:"2:1 Golden Goal",p3:"Portugal",p4:"Niederlande",p3s:"HF",ts:"Patrick Kluivert (NED) & Savo Milošević (YUG)",bp:"Zinédine Zidane",sf:[["Frankreich","Portugal","2:1 Golden Goal"],["Italien","Niederlande","0:0 n.V., 3:1 i.E."]],n:"Frankreich wurde als amtierender Weltmeister auch Europameister."},
+{y:2004,h:"Portugal",t:16,w:"Griechenland",f:"Portugal",s:"1:0",p3:"Niederlande",p4:"Tschechien",p3s:"HF",ts:"Milan Baroš (CZE)",bp:"Theodoros Zagorakis",sf:[["Portugal","Niederlande","2:1"],["Griechenland","Tschechien","1:0 Silver Goal"]],n:"Riesen-Sensation: Griechenland unter dem deutschen Trainer Otto Rehhagel wurde Europameister."},
+{y:2008,h:"Österreich & Schweiz",t:16,w:"Spanien",f:"Deutschland",s:"1:0",p3:"Russland",p4:"Türkei",p3s:"HF",ts:"David Villa (ESP)",bp:"Xavi",qf:[["Deutschland","Portugal","3:2"],["Türkei","Kroatien","1:1 n.V., 3:1 i.E."],["Russland","Niederlande","3:1 n.V."],["Spanien","Italien","0:0 n.V., 4:2 i.E."]],sf:[["Deutschland","Türkei","3:2"],["Spanien","Russland","3:0"]],n:"Fernando Torres traf im Finale – Beginn der spanischen Titelserie."},
+{y:2012,h:"Polen & Ukraine",t:16,w:"Spanien",f:"Italien",s:"4:0",p3:"Portugal",p4:"Deutschland",p3s:"HF",ts:"Fernando Torres u. a. (je 3)",bp:"Andrés Iniesta",qf:[["Portugal","Tschechien","1:0"],["Deutschland","Griechenland","4:2"],["Spanien","Frankreich","2:0"],["Italien","England","0:0 n.V., 4:2 i.E."]],sf:[["Spanien","Portugal","0:0 n.V., 4:2 i.E."],["Italien","Deutschland","2:1"]],n:"Spanien gewann als erstes Team EM – WM – EM in Folge. Höchster Finalsieg der EM-Geschichte."},
+{y:2016,h:"Frankreich",t:24,w:"Portugal",f:"Frankreich",s:"1:0 n.V.",p3:"Wales",p4:"Deutschland",p3s:"HF",ts:"Antoine Griezmann (FRA)",bp:"Antoine Griezmann",qf:[["Portugal","Polen","1:1 n.V., 5:3 i.E."],["Wales","Belgien","3:1"],["Deutschland","Italien","1:1 n.V., 6:5 i.E."],["Frankreich","Island","5:2"]],sf:[["Portugal","Wales","2:0"],["Frankreich","Deutschland","2:0"]],n:"Eder schoss Portugal zum ersten großen Titel – Ronaldo musste früh verletzt raus. Island begeisterte mit dem „Huh“."},
+{y:2021,h:"Europa (11 Länder)",t:24,w:"Italien",f:"England",s:"1:1 n.V., 3:2 i.E.",p3:"Spanien",p4:"Dänemark",p3s:"HF",ts:"Cristiano Ronaldo (POR) & Patrik Schick (CZE)",bp:"Gianluigi Donnarumma",label:"2020",qf:[["Spanien","Schweiz","1:1 n.V., 3:1 i.E."],["Italien","Belgien","2:1"],["Dänemark","Tschechien","2:1"],["England","Ukraine","4:0"]],sf:[["Italien","Spanien","1:1 n.V., 4:2 i.E."],["England","Dänemark","2:1 n.V."]],n:"Als „EURO 2020“ geplant, wegen Corona 2021 gespielt – in elf Ländern."},
+{y:2024,h:"Deutschland",t:24,w:"Spanien",f:"England",s:"2:1",p3:"Frankreich",p4:"Niederlande",p3s:"HF",ts:"Kane, Musiala, Olmo, Gakpo, Mikautadze, Schranz (je 3)",bp:"Rodri",qf:[["Spanien","Deutschland","2:1 n.V."],["Frankreich","Portugal","0:0 n.V., 5:3 i.E."],["England","Schweiz","1:1 n.V., 5:3 i.E."],["Niederlande","Türkei","2:1"]],sf:[["Spanien","Frankreich","2:1"],["England","Niederlande","2:1"]],n:"Spanien wurde Rekord-Europameister (4 Titel). Lamine Yamal war mit 16 Jahren der jüngste EM-Torschütze."}
+];
+
+/* ================== DATEN: CHAMPIONS LEAGUE ================== */
+const CL=parse(`1956|Real Madrid|4:3|Stade Reims|Paris
+1957|Real Madrid|2:0|AC Florenz|Madrid
+1958|Real Madrid|3:2 n.V.|AC Mailand|Brüssel
+1959|Real Madrid|2:0|Stade Reims|Stuttgart
+1960|Real Madrid|7:3|Eintracht Frankfurt|Glasgow
+1961|Benfica Lissabon|3:2|FC Barcelona|Bern
+1962|Benfica Lissabon|5:3|Real Madrid|Amsterdam
+1963|AC Mailand|2:1|Benfica Lissabon|London
+1964|Inter Mailand|3:1|Real Madrid|Wien
+1965|Inter Mailand|1:0|Benfica Lissabon|Mailand
+1966|Real Madrid|2:1|Partizan Belgrad|Brüssel
+1967|Celtic Glasgow|2:1|Inter Mailand|Lissabon
+1968|Manchester United|4:1 n.V.|Benfica Lissabon|London
+1969|AC Mailand|4:1|Ajax Amsterdam|Madrid
+1970|Feyenoord Rotterdam|2:1 n.V.|Celtic Glasgow|Mailand
+1971|Ajax Amsterdam|2:0|Panathinaikos Athen|London
+1972|Ajax Amsterdam|2:0|Inter Mailand|Rotterdam
+1973|Ajax Amsterdam|1:0|Juventus Turin|Belgrad
+1974|Bayern München|4:0 (Wdh. nach 1:1 n.V.)|Atlético Madrid|Brüssel
+1975|Bayern München|2:0|Leeds United|Paris
+1976|Bayern München|1:0|AS Saint-Étienne|Glasgow
+1977|FC Liverpool|3:1|Borussia Mönchengladbach|Rom
+1978|FC Liverpool|1:0|Club Brügge|London
+1979|Nottingham Forest|1:0|Malmö FF|München
+1980|Nottingham Forest|1:0|Hamburger SV|Madrid
+1981|FC Liverpool|1:0|Real Madrid|Paris
+1982|Aston Villa|1:0|Bayern München|Rotterdam
+1983|Hamburger SV|1:0|Juventus Turin|Athen
+1984|FC Liverpool|1:1 n.V., 4:2 i.E.|AS Rom|Rom
+1985|Juventus Turin|1:0|FC Liverpool|Brüssel
+1986|Steaua Bukarest|0:0 n.V., 2:0 i.E.|FC Barcelona|Sevilla
+1987|FC Porto|2:1|Bayern München|Wien
+1988|PSV Eindhoven|0:0 n.V., 6:5 i.E.|Benfica Lissabon|Stuttgart
+1989|AC Mailand|4:0|Steaua Bukarest|Barcelona
+1990|AC Mailand|1:0|Benfica Lissabon|Wien
+1991|Roter Stern Belgrad|0:0 n.V., 5:3 i.E.|Olympique Marseille|Bari
+1992|FC Barcelona|1:0 n.V.|Sampdoria Genua|London
+1993|Olympique Marseille|1:0|AC Mailand|München
+1994|AC Mailand|4:0|FC Barcelona|Athen
+1995|Ajax Amsterdam|1:0|AC Mailand|Wien
+1996|Juventus Turin|1:1 n.V., 4:2 i.E.|Ajax Amsterdam|Rom
+1997|Borussia Dortmund|3:1|Juventus Turin|München
+1998|Real Madrid|1:0|Juventus Turin|Amsterdam
+1999|Manchester United|2:1|Bayern München|Barcelona
+2000|Real Madrid|3:0|FC Valencia|Paris
+2001|Bayern München|1:1 n.V., 5:4 i.E.|FC Valencia|Mailand
+2002|Real Madrid|2:1|Bayer Leverkusen|Glasgow
+2003|AC Mailand|0:0 n.V., 3:2 i.E.|Juventus Turin|Manchester
+2004|FC Porto|3:0|AS Monaco|Gelsenkirchen
+2005|FC Liverpool|3:3 n.V., 3:2 i.E.|AC Mailand|Istanbul
+2006|FC Barcelona|2:1|FC Arsenal|Paris
+2007|AC Mailand|2:1|FC Liverpool|Athen
+2008|Manchester United|1:1 n.V., 6:5 i.E.|FC Chelsea|Moskau
+2009|FC Barcelona|2:0|Manchester United|Rom
+2010|Inter Mailand|2:0|Bayern München|Madrid
+2011|FC Barcelona|3:1|Manchester United|London
+2012|FC Chelsea|1:1 n.V., 4:3 i.E.|Bayern München|München
+2013|Bayern München|2:1|Borussia Dortmund|London
+2014|Real Madrid|4:1 n.V.|Atlético Madrid|Lissabon
+2015|FC Barcelona|3:1|Juventus Turin|Berlin
+2016|Real Madrid|1:1 n.V., 5:3 i.E.|Atlético Madrid|Mailand
+2017|Real Madrid|4:1|Juventus Turin|Cardiff
+2018|Real Madrid|3:1|FC Liverpool|Kiew
+2019|FC Liverpool|2:0|Tottenham Hotspur|Madrid
+2020|Bayern München|1:0|Paris Saint-Germain|Lissabon
+2021|FC Chelsea|1:0|Manchester City|Porto
+2022|Real Madrid|1:0|FC Liverpool|Paris
+2023|Manchester City|1:0|Inter Mailand|Istanbul
+2024|Real Madrid|2:0|Borussia Dortmund|London
+2025|Paris Saint-Germain|5:0|Inter Mailand|München
+2026|Paris Saint-Germain|1:1 n.V., 4:3 i.E.|FC Arsenal|Budapest`,["y","w","s","f","o"]);
+const CLNOTE={1960:"Höchster Finalsieg: Real Madrid schlug Eintracht Frankfurt vor über 127.000 Zuschauern.",1974:"Georg Schwarzenbeck rettete Bayern in letzter Minute ins Wiederholungsspiel.",1993:"Erstes Finale unter dem Namen „Champions League“.",1997:"Lars Ricken traf 16 Sekunden nach seiner Einwechslung per Lupfer.",1999:"Manchester United drehte das Spiel in der Nachspielzeit – Bayerns bitterste Nacht.",2005:"„Das Wunder von Istanbul“: Liverpool lag zur Pause 0:3 zurück.",2012:"„Finale dahoam“ – Bayern verlor im eigenen Stadion.",2013:"Erstes rein deutsches Finale – Arjen Robben traf in der 89. Minute.",2018:"Real Madrid gewann zum dritten Mal in Folge.",2020:"Wegen Corona als Finalturnier in Lissabon – Kingsley Coman traf, Bayern holte das Triple.",2025:"Höchster Finalsieg der CL-Geschichte – PSGs erster Titel.",2026:"PSG verteidigte den Titel – Gabriel verschoss den entscheidenden Elfmeter für Arsenal."};
+
+/* ================== DATEN: EUROPA LEAGUE / UEFA-POKAL ================== */
+const EL=parse(`1972|Tottenham Hotspur|3:2 ⇄|Wolverhampton Wanderers|–
+1973|FC Liverpool|3:2 ⇄|Borussia Mönchengladbach|–
+1974|Feyenoord Rotterdam|4:2 ⇄|Tottenham Hotspur|–
+1975|Borussia Mönchengladbach|5:1 ⇄|Twente Enschede|–
+1976|FC Liverpool|4:3 ⇄|Club Brügge|–
+1977|Juventus Turin|2:2 ⇄ (Auswärtstore)|Athletic Bilbao|–
+1978|PSV Eindhoven|3:0 ⇄|SC Bastia|–
+1979|Borussia Mönchengladbach|2:1 ⇄|Roter Stern Belgrad|–
+1980|Eintracht Frankfurt|3:3 ⇄ (Auswärtstore)|Borussia Mönchengladbach|–
+1981|Ipswich Town|5:4 ⇄|AZ Alkmaar|–
+1982|IFK Göteborg|4:0 ⇄|Hamburger SV|–
+1983|RSC Anderlecht|2:1 ⇄|Benfica Lissabon|–
+1984|Tottenham Hotspur|2:2 ⇄, 4:3 i.E.|RSC Anderlecht|–
+1985|Real Madrid|3:1 ⇄|Videoton|–
+1986|Real Madrid|5:3 ⇄|1. FC Köln|–
+1987|IFK Göteborg|2:1 ⇄|Dundee United|–
+1988|Bayer Leverkusen|3:3 ⇄, 3:2 i.E.|Espanyol Barcelona|–
+1989|SSC Neapel|5:4 ⇄|VfB Stuttgart|–
+1990|Juventus Turin|3:1 ⇄|AC Florenz|–
+1991|Inter Mailand|2:1 ⇄|AS Rom|–
+1992|Ajax Amsterdam|2:2 ⇄ (Auswärtstore)|FC Turin|–
+1993|Juventus Turin|6:1 ⇄|Borussia Dortmund|–
+1994|Inter Mailand|2:0 ⇄|Austria Salzburg|–
+1995|AC Parma|2:1 ⇄|Juventus Turin|–
+1996|Bayern München|5:1 ⇄|Girondins Bordeaux|–
+1997|Schalke 04|1:1 ⇄, 4:1 i.E.|Inter Mailand|–
+1998|Inter Mailand|3:0|Lazio Rom|Paris
+1999|AC Parma|3:0|Olympique Marseille|Moskau
+2000|Galatasaray Istanbul|0:0 n.V., 4:1 i.E.|FC Arsenal|Kopenhagen
+2001|FC Liverpool|5:4 Golden Goal|Deportivo Alavés|Dortmund
+2002|Feyenoord Rotterdam|3:2|Borussia Dortmund|Rotterdam
+2003|FC Porto|3:2 n.V.|Celtic Glasgow|Sevilla
+2004|FC Valencia|2:0|Olympique Marseille|Göteborg
+2005|ZSKA Moskau|3:1|Sporting Lissabon|Lissabon
+2006|FC Sevilla|4:0|FC Middlesbrough|Eindhoven
+2007|FC Sevilla|2:2 n.V., 3:1 i.E.|Espanyol Barcelona|Glasgow
+2008|Zenit St. Petersburg|2:0|Glasgow Rangers|Manchester
+2009|Schachtar Donezk|2:1 n.V.|Werder Bremen|Istanbul
+2010|Atlético Madrid|2:1 n.V.|FC Fulham|Hamburg
+2011|FC Porto|1:0|Sporting Braga|Dublin
+2012|Atlético Madrid|3:0|Athletic Bilbao|Bukarest
+2013|FC Chelsea|2:1|Benfica Lissabon|Amsterdam
+2014|FC Sevilla|0:0 n.V., 4:2 i.E.|Benfica Lissabon|Turin
+2015|FC Sevilla|3:2|Dnipro Dnipropetrowsk|Warschau
+2016|FC Sevilla|3:1|FC Liverpool|Basel
+2017|Manchester United|2:0|Ajax Amsterdam|Stockholm
+2018|Atlético Madrid|3:0|Olympique Marseille|Lyon
+2019|FC Chelsea|4:1|FC Arsenal|Baku
+2020|FC Sevilla|3:2|Inter Mailand|Köln
+2021|FC Villarreal|1:1 n.V., 11:10 i.E.|Manchester United|Danzig
+2022|Eintracht Frankfurt|1:1 n.V., 5:4 i.E.|Glasgow Rangers|Sevilla
+2023|FC Sevilla|1:1 n.V., 4:1 i.E.|AS Rom|Budapest
+2024|Atalanta Bergamo|3:0|Bayer Leverkusen|Dublin
+2025|Tottenham Hotspur|1:0|Manchester United|Bilbao
+2026|Aston Villa|3:0|SC Freiburg|Istanbul`,["y","w","s","f","o"]);
+const ELNOTE={1980:"Rein deutsches Finale – Eintracht Frankfurt holte den ersten Europapokal.",1997:"Die „Eurofighter“ aus Schalke gewannen im Elfmeterschießen in Mailand.",2010:"Erstes Finale unter dem Namen „Europa League“ – in Hamburg.",2022:"Eintracht Frankfurt gewann ungeschlagen – zehntausende Fans in Sevilla.",2024:"Ademola Lookman traf dreifach und beendete Leverkusens 51-Spiele-Serie ohne Niederlage.",2026:"Freiburg stand erstmals in einem Europapokal-Finale."};
+
+/* ================== DATEN: CONFERENCE LEAGUE ================== */
+const ECL=parse(`2022|AS Rom|1:0|Feyenoord Rotterdam|Tirana
+2023|West Ham United|2:1|AC Florenz|Prag
+2024|Olympiakos Piräus|1:0 n.V.|AC Florenz|Athen
+2025|FC Chelsea|4:1|Real Betis|Breslau
+2026|Crystal Palace|1:0|Rayo Vallecano|Leipzig`,["y","w","s","f","o"]);
+const ECLNOTE={2022:"Erster Sieger – Trainer José Mourinho.",2024:"Erster Europapokal für einen griechischen Klub.",2026:"Jean-Philippe Mateta schoss Crystal Palace zum ersten Europapokal der Vereinsgeschichte."};
+
+/* ================== DATEN: BALLON D'OR ================== */
+const BDO=parse(`1956|Stanley Matthews|England|Blackpool
+1957|Alfredo Di Stéfano|Spanien|Real Madrid
+1958|Raymond Kopa|Frankreich|Real Madrid
+1959|Alfredo Di Stéfano|Spanien|Real Madrid
+1960|Luis Suárez|Spanien|FC Barcelona
+1961|Omar Sívori|Italien|Juventus Turin
+1962|Josef Masopust|Tschechoslowakei|Dukla Prag
+1963|Lew Jaschin|Sowjetunion|Dynamo Moskau
+1964|Denis Law|Schottland|Manchester United
+1965|Eusébio|Portugal|Benfica Lissabon
+1966|Bobby Charlton|England|Manchester United
+1967|Flórián Albert|Ungarn|Ferencváros
+1968|George Best|Nordirland|Manchester United
+1969|Gianni Rivera|Italien|AC Mailand
+1970|Gerd Müller|Deutschland|Bayern München
+1971|Johan Cruyff|Niederlande|Ajax Amsterdam
+1972|Franz Beckenbauer|Deutschland|Bayern München
+1973|Johan Cruyff|Niederlande|FC Barcelona
+1974|Johan Cruyff|Niederlande|FC Barcelona
+1975|Oleh Blochin|Sowjetunion|Dynamo Kiew
+1976|Franz Beckenbauer|Deutschland|Bayern München
+1977|Allan Simonsen|Dänemark|Borussia Mönchengladbach
+1978|Kevin Keegan|England|Hamburger SV
+1979|Kevin Keegan|England|Hamburger SV
+1980|Karl-Heinz Rummenigge|Deutschland|Bayern München
+1981|Karl-Heinz Rummenigge|Deutschland|Bayern München
+1982|Paolo Rossi|Italien|Juventus Turin
+1983|Michel Platini|Frankreich|Juventus Turin
+1984|Michel Platini|Frankreich|Juventus Turin
+1985|Michel Platini|Frankreich|Juventus Turin
+1986|Igor Belanow|Sowjetunion|Dynamo Kiew
+1987|Ruud Gullit|Niederlande|AC Mailand
+1988|Marco van Basten|Niederlande|AC Mailand
+1989|Marco van Basten|Niederlande|AC Mailand
+1990|Lothar Matthäus|Deutschland|Inter Mailand
+1991|Jean-Pierre Papin|Frankreich|Olympique Marseille
+1992|Marco van Basten|Niederlande|AC Mailand
+1993|Roberto Baggio|Italien|Juventus Turin
+1994|Hristo Stoitschkow|Bulgarien|FC Barcelona
+1995|George Weah|Liberia|AC Mailand
+1996|Matthias Sammer|Deutschland|Borussia Dortmund
+1997|Ronaldo|Brasilien|Inter Mailand
+1998|Zinédine Zidane|Frankreich|Juventus Turin
+1999|Rivaldo|Brasilien|FC Barcelona
+2000|Luís Figo|Portugal|Real Madrid
+2001|Michael Owen|England|FC Liverpool
+2002|Ronaldo|Brasilien|Real Madrid
+2003|Pavel Nedvěd|Tschechien|Juventus Turin
+2004|Andrij Schewtschenko|Ukraine|AC Mailand
+2005|Ronaldinho|Brasilien|FC Barcelona
+2006|Fabio Cannavaro|Italien|Real Madrid
+2007|Kaká|Brasilien|AC Mailand
+2008|Cristiano Ronaldo|Portugal|Manchester United|Lionel Messi|Fernando Torres
+2009|Lionel Messi|Argentinien|FC Barcelona|Cristiano Ronaldo|Xavi
+2010|Lionel Messi|Argentinien|FC Barcelona|Andrés Iniesta|Xavi
+2011|Lionel Messi|Argentinien|FC Barcelona|Cristiano Ronaldo|Xavi
+2012|Lionel Messi|Argentinien|FC Barcelona|Cristiano Ronaldo|Andrés Iniesta
+2013|Cristiano Ronaldo|Portugal|Real Madrid|Lionel Messi|Franck Ribéry
+2014|Cristiano Ronaldo|Portugal|Real Madrid|Lionel Messi|Manuel Neuer
+2015|Lionel Messi|Argentinien|FC Barcelona|Cristiano Ronaldo|Neymar
+2016|Cristiano Ronaldo|Portugal|Real Madrid|Lionel Messi|Antoine Griezmann
+2017|Cristiano Ronaldo|Portugal|Real Madrid|Lionel Messi|Neymar
+2018|Luka Modrić|Kroatien|Real Madrid|Cristiano Ronaldo|Antoine Griezmann
+2019|Lionel Messi|Argentinien|FC Barcelona|Virgil van Dijk|Cristiano Ronaldo
+2021|Lionel Messi|Argentinien|Paris Saint-Germain|Robert Lewandowski|Jorginho
+2022|Karim Benzema|Frankreich|Real Madrid|Sadio Mané|Kevin De Bruyne
+2023|Lionel Messi|Argentinien|Inter Miami|Erling Haaland|Kylian Mbappé
+2024|Rodri|Spanien|Manchester City|Vinícius Júnior|Jude Bellingham
+2025|Ousmane Dembélé|Frankreich|Paris Saint-Germain|Lamine Yamal|Vitinha
+2026|Harry Kane|England|Bayern München|Kylian Mbappé|Lamine Yamal`,["y","p","n","c","p2","p3"]);
+const BDOW=parse(`2018|Ada Hegerberg|Norwegen
+2019|Megan Rapinoe|USA
+2021|Alexia Putellas|Spanien
+2022|Alexia Putellas|Spanien
+2023|Aitana Bonmatí|Spanien
+2024|Aitana Bonmatí|Spanien
+2025|Aitana Bonmatí|Spanien
+2026|Alexia Putellas|Spanien`,["y","p","n"]);
+
+/* ================== DATEN: BUNDESLIGA ================== */
+const BL=parse(`1963/64|1. FC Köln|Uwe Seeler (Hamburger SV)|30
+1964/65|Werder Bremen|Rudi Brunnenmeier (1860 München)|24
+1965/66|1860 München|Lothar Emmerich (Borussia Dortmund)|31
+1966/67|Eintracht Braunschweig|Lothar Emmerich (BVB) & Gerd Müller (Bayern)|28
+1967/68|1. FC Nürnberg|Hannes Löhr (1. FC Köln)|27
+1968/69|Bayern München|Gerd Müller (Bayern)|30
+1969/70|Borussia Mönchengladbach|Gerd Müller (Bayern)|38
+1970/71|Borussia Mönchengladbach|Lothar Kobluhn (RW Oberhausen)|24
+1971/72|Bayern München|Gerd Müller (Bayern)|40
+1972/73|Bayern München|Gerd Müller (Bayern)|36
+1973/74|Bayern München|Gerd Müller (Bayern) & Jupp Heynckes (Gladbach)|30
+1974/75|Borussia Mönchengladbach|Jupp Heynckes (Gladbach)|27
+1975/76|Borussia Mönchengladbach|Klaus Fischer (Schalke 04)|29
+1976/77|Borussia Mönchengladbach|Dieter Müller (1. FC Köln)|34
+1977/78|1. FC Köln|Dieter Müller (Köln) & Gerd Müller (Bayern)|24
+1978/79|Hamburger SV|Klaus Allofs (Fortuna Düsseldorf)|22
+1979/80|Bayern München|Karl-Heinz Rummenigge (Bayern)|26
+1980/81|Bayern München|Karl-Heinz Rummenigge (Bayern)|29
+1981/82|Hamburger SV|Horst Hrubesch (Hamburger SV)|27
+1982/83|Hamburger SV|Rudi Völler (Werder Bremen)|23
+1983/84|VfB Stuttgart|Karl-Heinz Rummenigge (Bayern)|26
+1984/85|Bayern München|Klaus Allofs (1. FC Köln)|26
+1985/86|Bayern München|Stefan Kuntz (VfL Bochum)|22
+1986/87|Bayern München|Uwe Rahn (Gladbach)|24
+1987/88|Werder Bremen|Jürgen Klinsmann (VfB Stuttgart)|19
+1988/89|Bayern München|Thomas Allofs (Köln) & Roland Wohlfarth (Bayern)|17
+1989/90|Bayern München|Jørn Andersen (Eintracht Frankfurt)|18
+1990/91|1. FC Kaiserslautern|Roland Wohlfarth (Bayern)|21
+1991/92|VfB Stuttgart|Fritz Walter (VfB Stuttgart)|22
+1992/93|Werder Bremen|Ulf Kirsten (Leverkusen) & Anthony Yeboah (Frankfurt)|20
+1993/94|Bayern München|Stefan Kuntz (Kaiserslautern) & Anthony Yeboah (Frankfurt)|18
+1994/95|Borussia Dortmund|Mario Basler (Bremen) & Heiko Herrlich (Gladbach)|20
+1995/96|Borussia Dortmund|Fredi Bobic (VfB Stuttgart)|17
+1996/97|Bayern München|Ulf Kirsten (Bayer Leverkusen)|22
+1997/98|1. FC Kaiserslautern|Ulf Kirsten (Bayer Leverkusen)|22
+1998/99|Bayern München|Michael Preetz (Hertha BSC)|23
+1999/00|Bayern München|Martin Max (1860 München)|19
+2000/01|Bayern München|Sergej Barbarez (HSV) & Ebbe Sand (Schalke)|22
+2001/02|Borussia Dortmund|Márcio Amoroso (BVB) & Martin Max (1860)|18
+2002/03|Bayern München|Giovane Élber (Bayern) & Thomas Christiansen (Bochum)|21
+2003/04|Werder Bremen|Aílton (Werder Bremen)|28
+2004/05|Bayern München|Marek Mintál (1. FC Nürnberg)|24
+2005/06|Bayern München|Miroslav Klose (Werder Bremen)|25
+2006/07|VfB Stuttgart|Theofanis Gekas (VfL Bochum)|20
+2007/08|Bayern München|Luca Toni (Bayern)|24
+2008/09|VfL Wolfsburg|Grafite (VfL Wolfsburg)|28
+2009/10|Bayern München|Edin Džeko (VfL Wolfsburg)|22
+2010/11|Borussia Dortmund|Mario Gomez (Bayern)|28
+2011/12|Borussia Dortmund|Klaas-Jan Huntelaar (Schalke 04)|29
+2012/13|Bayern München|Stefan Kießling (Bayer Leverkusen)|25
+2013/14|Bayern München|Robert Lewandowski (Borussia Dortmund)|20
+2014/15|Bayern München|Alexander Meier (Eintracht Frankfurt)|19
+2015/16|Bayern München|Robert Lewandowski (Bayern)|30
+2016/17|Bayern München|Pierre-Emerick Aubameyang (BVB)|31
+2017/18|Bayern München|Robert Lewandowski (Bayern)|29
+2018/19|Bayern München|Robert Lewandowski (Bayern)|22
+2019/20|Bayern München|Robert Lewandowski (Bayern)|34
+2020/21|Bayern München|Robert Lewandowski (Bayern)|41
+2021/22|Bayern München|Robert Lewandowski (Bayern)|35
+2022/23|Bayern München|Christopher Nkunku (Leipzig) & Niclas Füllkrug (Bremen)|16
+2023/24|Bayer Leverkusen|Harry Kane (Bayern)|36
+2024/25|Bayern München|Harry Kane (Bayern)|26
+2025/26|Bayern München|Harry Kane (Bayern)|36`,["y","w","ts","tg"]);
+const BLNOTE={"1963/64":"Erste Bundesliga-Saison.","2000/01":"Meister der Herzen: Schalke war 4 Minuten lang Meister, bis Patrik Andersson für Bayern in Hamburg traf.","2008/09":"Erster Titel für den VfL Wolfsburg unter Felix Magath.","2020/21":"Lewandowski brach mit 41 Toren den Rekord von Gerd Müller (40).","2023/24":"Leverkusen wurde als erster Klub ungeschlagen Meister – unter Xabi Alonso.","2025/26":"Kane mit 17 Toren Vorsprung auf den Zweiten – so viel wie seit 1971/72 nicht."};
+BLNOTE["1977/78"]="Köln wurde nur über die Tordifferenz Meister: Gladbach gewann am letzten Spieltag 12:0 gegen Dortmund, Köln reichte ein 5:0 beim FC St. Pauli.";
+
+/* ================== DATEN: DFB-POKAL ================== */
+const POKAL=parse(`1953|Rot-Weiss Essen
+1954|VfB Stuttgart
+1955|Karlsruher SC
+1956|Karlsruher SC
+1957|Bayern München
+1958|VfB Stuttgart
+1959|Schwarz-Weiß Essen
+1960|Borussia Mönchengladbach
+1961|Werder Bremen
+1962|1. FC Nürnberg
+1963|Hamburger SV
+1964|1860 München
+1965|Borussia Dortmund
+1966|Bayern München
+1967|Bayern München
+1968|1. FC Köln
+1969|Bayern München
+1970|Kickers Offenbach
+1971|Bayern München
+1972|Schalke 04
+1973|Borussia Mönchengladbach
+1974|Eintracht Frankfurt
+1975|Eintracht Frankfurt
+1976|Hamburger SV
+1977|1. FC Köln
+1978|1. FC Köln
+1979|Fortuna Düsseldorf
+1980|Fortuna Düsseldorf
+1981|Eintracht Frankfurt
+1982|Bayern München
+1983|1. FC Köln
+1984|Bayern München
+1985|Bayer Uerdingen|2:1|Bayern München
+1986|Bayern München|5:2|VfB Stuttgart
+1987|Hamburger SV|3:1|Stuttgarter Kickers
+1988|Eintracht Frankfurt|1:0|VfL Bochum
+1989|Borussia Dortmund|4:1|Werder Bremen
+1990|1. FC Kaiserslautern|3:2|Werder Bremen
+1991|Werder Bremen|1:1 n.V., 4:3 i.E.|1. FC Köln
+1992|Hannover 96|0:0 n.V., 4:3 i.E.|Borussia Mönchengladbach
+1993|Bayer Leverkusen|1:0|Hertha BSC Amateure
+1994|Werder Bremen|3:1|Rot-Weiss Essen
+1995|Borussia Mönchengladbach|3:0|VfL Wolfsburg
+1996|1. FC Kaiserslautern|1:0|Karlsruher SC
+1997|VfB Stuttgart|2:0|Energie Cottbus
+1998|Bayern München|2:1|MSV Duisburg
+1999|Werder Bremen|1:1 n.V., 5:4 i.E.|Bayern München
+2000|Bayern München|3:0|Werder Bremen
+2001|Schalke 04|2:0|Union Berlin
+2002|Schalke 04|4:2|Bayer Leverkusen
+2003|Bayern München|3:1|1. FC Kaiserslautern
+2004|Werder Bremen|3:2|Alemannia Aachen
+2005|Bayern München|2:1|Schalke 04
+2006|Bayern München|1:0|Eintracht Frankfurt
+2007|1. FC Nürnberg|3:2 n.V.|VfB Stuttgart
+2008|Bayern München|2:1 n.V.|Borussia Dortmund
+2009|Werder Bremen|1:0|Bayer Leverkusen
+2010|Bayern München|4:0|Werder Bremen
+2011|Schalke 04|5:0|MSV Duisburg
+2012|Borussia Dortmund|5:2|Bayern München
+2013|Bayern München|3:2|VfB Stuttgart
+2014|Bayern München|2:0 n.V.|Borussia Dortmund
+2015|VfL Wolfsburg|3:1|Borussia Dortmund
+2016|Bayern München|0:0 n.V., 4:3 i.E.|Borussia Dortmund
+2017|Borussia Dortmund|2:1|Eintracht Frankfurt
+2018|Eintracht Frankfurt|3:1|Bayern München
+2019|Bayern München|3:0|RB Leipzig
+2020|Bayern München|4:2|Bayer Leverkusen
+2021|Borussia Dortmund|4:1|RB Leipzig
+2022|RB Leipzig|1:1 n.V., 4:2 i.E.|SC Freiburg
+2023|RB Leipzig|2:0|Eintracht Frankfurt
+2024|Bayer Leverkusen|1:0|1. FC Kaiserslautern
+2025|VfB Stuttgart|4:2|Arminia Bielefeld
+2026|Bayern München|3:0|VfB Stuttgart`,["y","w","s","f"]);
+
+/* ================== DATEN: TOPLIGEN ================== */
+const LIGEN={
+"🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F} Premier League":["FC Chelsea","Manchester City","Manchester City","FC Liverpool","Manchester City","Manchester City","Manchester City","Manchester City","FC Liverpool","FC Arsenal"],
+"🇪🇸 La Liga":["Real Madrid","FC Barcelona","FC Barcelona","Real Madrid","Atlético Madrid","Real Madrid","FC Barcelona","Real Madrid","FC Barcelona","FC Barcelona"],
+"🇮🇹 Serie A":["Juventus Turin","Juventus Turin","Juventus Turin","Juventus Turin","Inter Mailand","AC Mailand","SSC Neapel","Inter Mailand","SSC Neapel","Inter Mailand"],
+"🇫🇷 Ligue 1":["AS Monaco","Paris Saint-Germain","Paris Saint-Germain","Paris Saint-Germain","OSC Lille","Paris Saint-Germain","Paris Saint-Germain","Paris Saint-Germain","Paris Saint-Germain","Paris Saint-Germain"],
+"🇩🇪 Bundesliga":["Bayern München","Bayern München","Bayern München","Bayern München","Bayern München","Bayern München","Bayern München","Bayer Leverkusen","Bayern München","Bayern München"]};
+const LIGEN_J=["2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23","2023/24","2024/25","2025/26"];
+
+/* ================== DATEN: COPA & WEITERE ================== */
+const COPA=parse(`1916|Uruguay
+1917|Uruguay
+1919|Brasilien
+1920|Uruguay
+1921|Argentinien
+1922|Brasilien
+1923|Uruguay
+1924|Uruguay
+1925|Argentinien
+1926|Uruguay
+1927|Argentinien
+1929|Argentinien
+1935|Uruguay
+1937|Argentinien
+1939|Peru
+1941|Argentinien
+1942|Uruguay
+1945|Argentinien
+1946|Argentinien
+1947|Argentinien
+1949|Brasilien
+1953|Paraguay
+1955|Argentinien
+1956|Uruguay
+1957|Argentinien
+1959|Argentinien
+1959 (II)|Uruguay
+1963|Bolivien
+1967|Uruguay
+1975|Peru
+1979|Paraguay
+1983|Uruguay
+1987|Uruguay
+1989|Brasilien
+1991|Argentinien
+1993|Argentinien
+1995|Uruguay
+1997|Brasilien
+1999|Brasilien
+2001|Kolumbien
+2004|Brasilien
+2007|Brasilien
+2011|Uruguay
+2015|Chile
+2016|Chile
+2019|Brasilien
+2021|Argentinien
+2024|Argentinien`,["y","w"]);
+const WEITERE=[
+{id:"fwm",t:"Frauen-Weltmeisterschaft",ic:"👩‍🦰🌍",nat:true,d:parse(`1991|USA|2:1|Norwegen
+1995|Norwegen|2:0|Deutschland
+1999|USA|0:0 n.V., 5:4 i.E.|China
+2003|Deutschland|2:1 Golden Goal|Schweden
+2007|Deutschland|2:0|Brasilien
+2011|Japan|2:2 n.V., 3:1 i.E.|USA
+2015|USA|5:2|Japan
+2019|USA|2:0|Niederlande
+2023|Spanien|1:0|England`,["y","w","s","f"])},
+{id:"fem",t:"Frauen-Europameisterschaft",ic:"👩‍🦰🇪🇺",nat:true,d:parse(`1984|Schweden|⇄, i.E.|England
+1987|Norwegen|2:1|Schweden
+1989|Deutschland|4:1|Norwegen
+1991|Deutschland|3:1 n.V.|Norwegen
+1993|Norwegen|1:0|Italien
+1995|Deutschland|3:2|Schweden
+1997|Deutschland|2:0|Italien
+2001|Deutschland|1:0 Golden Goal|Schweden
+2005|Deutschland|3:1|Norwegen
+2009|Deutschland|6:2|England
+2013|Deutschland|1:0|Norwegen
+2017|Niederlande|4:2|Dänemark
+2022|England|2:1 n.V.|Deutschland
+2025|England|1:1 n.V., 3:1 i.E.|Spanien`,["y","w","s","f"])},
+{id:"nl",t:"UEFA Nations League",ic:"🏅",nat:true,d:parse(`2019|Portugal|1:0|Niederlande
+2021|Frankreich|2:1|Spanien
+2023|Spanien|0:0 n.V., 5:4 i.E.|Kroatien
+2025|Portugal|2:2 n.V., 5:3 i.E.|Spanien`,["y","w","s","f"])},
+{id:"kwm",t:"FIFA Klub-Weltmeisterschaft",ic:"🌐",d:parse(`2000|Corinthians
+2005|São Paulo FC
+2006|Internacional Porto Alegre
+2007|AC Mailand
+2008|Manchester United
+2009|FC Barcelona
+2010|Inter Mailand
+2011|FC Barcelona
+2012|Corinthians
+2013|Bayern München
+2014|Real Madrid
+2015|FC Barcelona
+2016|Real Madrid
+2017|Real Madrid
+2018|Real Madrid
+2019|FC Liverpool
+2020|Bayern München
+2021|FC Chelsea
+2022|Real Madrid
+2023|Manchester City
+2025|FC Chelsea|3:0|Paris Saint-Germain`,["y","w","s","f"]),n:"2025 erstmals mit 32 Teams in den USA."},
+{id:"ppc",t:"Europapokal der Pokalsieger (1961–1999)",ic:"🏆",d:parse(`1961|AC Florenz
+1962|Atlético Madrid
+1963|Tottenham Hotspur
+1964|Sporting Lissabon
+1965|West Ham United
+1966|Borussia Dortmund
+1967|Bayern München
+1968|AC Mailand
+1969|Slovan Bratislava
+1970|Manchester City
+1971|FC Chelsea
+1972|Glasgow Rangers
+1973|AC Mailand
+1974|1. FC Magdeburg
+1975|Dynamo Kiew
+1976|RSC Anderlecht
+1977|Hamburger SV
+1978|RSC Anderlecht
+1979|FC Barcelona
+1980|FC Valencia
+1981|Dinamo Tiflis
+1982|FC Barcelona
+1983|FC Aberdeen
+1984|Juventus Turin
+1985|FC Everton
+1986|Dynamo Kiew
+1987|Ajax Amsterdam
+1988|KV Mechelen
+1989|FC Barcelona
+1990|Sampdoria Genua
+1991|Manchester United
+1992|Werder Bremen
+1993|AC Parma
+1994|FC Arsenal
+1995|Real Saragossa
+1996|Paris Saint-Germain
+1997|FC Barcelona
+1998|FC Chelsea
+1999|Lazio Rom`,["y","w"]),n:"Borussia Dortmund gewann 1966 als erster deutscher Klub einen Europapokal."}
+];
+
+/* ================== REKORDE / FAKTEN / LEXIKON ================== */
+const REK=[
+["🌍","Rekordweltmeister","Brasilien – 5","1958, 1962, 1970, 1994, 2002. Dahinter Deutschland und Italien mit je 4."],
+["👟","WM-Rekordtorschütze","Kylian Mbappé – 22","Seit der WM 2026 vor Lionel Messi (21) und Miroslav Klose (16)."],
+["🎯","Meiste Tore bei einer WM","Just Fontaine – 13","Frankreich, WM 1958 in Schweden."],
+["🏟️","Meiste WM-Spiele","Lionel Messi – 34","Sechs WM-Turniere von 2006 bis 2026."],
+["⚡","Schnellstes WM-Tor","11 Sekunden","Hakan Şükür (Türkei) im Spiel um Platz 3 2002 gegen Südkorea."],
+["💥","Höchster WM-Sieg (Endrunde)","Ungarn – El Salvador 10:1","WM 1982 in Spanien."],
+["😱","Höchster Halbfinalsieg","Deutschland – Brasilien 7:1","WM 2014 in Belo Horizonte."],
+["👑","Pelé","3 WM-Titel","Einziger Spieler mit drei WM-Titeln: 1958, 1962, 1970."],
+["🏆","Rekordsieger Champions League","Real Madrid – 15","Davon die ersten fünf Landesmeister-Pokale 1956–1960 in Folge."],
+["🔥","CL-Rekordtorschütze","Cristiano Ronaldo – 140","Mit Manchester United, Real Madrid und Juventus."],
+["🥇","Meiste Ballon d'Or","Lionel Messi – 8","2009, 2010, 2011, 2012, 2015, 2019, 2021, 2023."],
+["🇩🇪","Deutscher Rekordmeister","Bayern München – 35","Davon 34 Bundesliga-Titel; 11 in Folge von 2013 bis 2023."],
+["⚽","Bundesliga-Rekord in einer Saison","Robert Lewandowski – 41","Saison 2020/21, ein Tor mehr als Gerd Müller 1971/72."],
+["📈","Ewiger Bundesliga-Torschütze","Gerd Müller – 365","In 427 Spielen für Bayern München."],
+["🛡️","Ungeschlagener Meister","Bayer Leverkusen 2023/24","Einziger Bundesliga-Meister ohne Niederlage."],
+["🥅","Rekord-Pokalsieger","Bayern München – 21","DFB-Pokal, zuletzt 2026 mit 3:0 gegen Stuttgart."],
+["👕","Deutscher Rekordnationalspieler","Lothar Matthäus – 150","Von 1980 bis 2000, fünf WM-Teilnahmen."],
+["🎖️","DFB-Rekordtorschütze","Miroslav Klose – 71","In 137 Länderspielen."],
+["🇪🇺","Rekord-Europameister","Spanien – 4","1964, 2008, 2012, 2024. Deutschland 3 (1972, 1980, 1996)."],
+["🔁","Rekordsieger Europa League","FC Sevilla – 7","2006, 2007, 2014, 2015, 2016, 2020, 2023 – kein Finale verloren."],
+["👴","Ältester Ballon-d'Or-Sieger","Stanley Matthews – 41 Jahre","Erster Sieger überhaupt, 1956."],
+["🌟","Spanien 2026","Doppel-Weltmeister","Erstes Land, das gleichzeitig Weltmeister bei Männern und Frauen ist."]
+];
+const FAKTEN=[
+"Die WM 1950 hatte kein Finale. Uruguays 2:1 gegen Brasilien im Maracanã heißt bis heute „Maracanaço“.",
+"Dänemark rückte 1992 nur zehn Tage vor der EM für Jugoslawien nach – und wurde Europameister.",
+"Griechenland wurde 2004 mit dem deutschen Trainer Otto Rehhagel sensationell Europameister.",
+"Beim „Wunder von Bern“ 1954 hatte Deutschland in der Vorrunde noch 3:8 gegen Ungarn verloren.",
+"Antonín Panenka lupfte 1976 im EM-Finale den Elfmeter in die Mitte – seitdem heißt der Schuss „Panenka“.",
+"Kylian Mbappé ist der erste Spieler, der zweimal WM-Torschützenkönig wurde (2022 und 2026).",
+"Paris Saint-Germain verteidigte 2026 als zweiter Klub der Champions-League-Ära den Titel – nach Real Madrid.",
+"Harry Kane ist der erste Engländer seit Michael Owen 2001, der den Ballon d'Or gewann.",
+"Harry Kane wurde dreimal in Folge Bundesliga-Torschützenkönig – das schafften vorher nur Gerd Müller und Robert Lewandowski.",
+"2020 wurde der Ballon d'Or wegen der Corona-Pandemie nicht vergeben.",
+"Der Ballon d'Or wurde 2026 zum ersten Mal in London statt in Paris verliehen.",
+"Franz Beckenbauer wurde als Spieler (1974) und als Trainer (1990) Weltmeister.",
+"Bei der WM 2026 spielten erstmals 48 Mannschaften – über 6,8 Millionen Zuschauer kamen in die Stadien.",
+"Italien (1934/38) und Brasilien (1958/62) sind die einzigen Länder, die einen WM-Titel verteidigt haben.",
+"Lars Ricken traf im CL-Finale 1997 nur 16 Sekunden nach seiner Einwechslung zum 3:1 für Dortmund.",
+"Die Auswärtstorregel wurde von der UEFA 2021 abgeschafft.",
+"Das erste Golden Goal in einem großen Finale schoss Oliver Bierhoff bei der EM 1996.",
+"Borussia Dortmund holte 1966 als erster deutscher Klub einen Europapokal (Pokalsieger-Wettbewerb).",
+"Bayer Leverkusen blieb 2023/24 in 51 Pflichtspielen in Folge ungeschlagen – erst das Europa-League-Finale ging verloren.",
+"Real Madrid gewann die ersten fünf Europapokale der Landesmeister von 1956 bis 1960.",
+"Oliver Kahn ist bis heute der einzige Torwart, der bei einer WM zum besten Spieler gewählt wurde (2002).",
+"Crystal Palace gewann 2026 mit der Conference League den ersten Europapokal der Vereinsgeschichte.",
+"Der FC Sevilla hat alle seine sieben Europa-League-Finals gewonnen.",
+"Gerd Müller schoss 1971/72 40 Bundesliga-Tore – der Rekord hielt fast 50 Jahre.",
+"England wurde bei der WM 2026 Dritter – das beste englische WM-Ergebnis seit dem Titel 1966."
+];
+const LEX=[
+["Abseits","Ein Spieler steht abseits, wenn er beim Abspiel näher an der gegnerischen Torlinie ist als der Ball und der vorletzte Gegenspieler – und ins Spiel eingreift."],
+["Elfmeterschießen","Entscheidet ein K.-o.-Spiel nach Unentschieden (meist nach Verlängerung). Jedes Team schießt 5 Elfmeter, danach geht es einzeln weiter."],
+["Golden Goal","Das erste Tor in der Verlängerung beendete sofort das Spiel. Von 1996 bis 2004 bei großen Turnieren im Einsatz, heute abgeschafft."],
+["Silver Goal","Wer nach der ersten Hälfte der Verlängerung führte, hatte gewonnen. Nur 2003/04 genutzt – Griechenland kam so 2004 ins EM-Finale."],
+["Auswärtstorregel","Bei Gleichstand nach Hin- und Rückspiel zählten Auswärtstore doppelt. Die UEFA schaffte die Regel 2021 ab."],
+["VAR (Videobeweis)","Video-Schiedsrichter prüfen Tore, Elfmeter, Rote Karten und Verwechslungen. Bei einer WM erstmals 2018."],
+["Double / Triple","Double = Meisterschaft + Pokal in einer Saison. Triple = zusätzlich die Champions League (z. B. Bayern 2013 und 2020)."],
+["Hattrick","Drei Tore eines Spielers in einem Spiel. Ein „lupenreiner“ Hattrick: drei Tore nacheinander in einer Halbzeit ohne Tor dazwischen."],
+["Torjägerkanone","Trophäe des „kicker“ für den besten Torschützen der Bundesliga."],
+["Goldener Schuh","Preis für den besten Torjäger Europas über alle Ligen (Tore in den Top-5-Ligen zählen doppelt). 2025/26: Harry Kane."],
+["Ballon d'Or","„Goldener Ball“ der Zeitschrift France Football für den besten Spieler des Jahres – seit 1956."],
+["Panenka","Gelupfter Elfmeter in die Tormitte, benannt nach Antonín Panenka (EM-Finale 1976)."],
+["Gerd-Müller-Trophäe","Wird seit 2021 beim Ballon d'Or an den besten Torjäger des Jahres vergeben. 2026: Harry Kane."],
+["Kopa-Trophäe","Ballon-d'Or-Preis für den besten Spieler unter 21 Jahren."],
+["Jaschin-Trophäe","Preis für den besten Torwart des Jahres beim Ballon d'Or. 2026: Unai Simón."]
+];
+
+
+/* ================== ERGÄNZUNGEN: LÄNDER & CODES ================== */
+Object.assign(NAT,{"Bosnien-Herzegowina":"BA","DR Kongo":"CD","Kap Verde":"CV",Australien:"AU",Ägypten:"EG",Algerien:"DZ",Elfenbeinküste:"CI",Haiti:"HT",Curacao:"CW",Tunesien:"TN",Iran:"IR",Neuseeland:"NZ","Saudi-Arabien":"SA",Irak:"IQ",Jordanien:"JO",Usbekistan:"UZ",Panama:"PA",Slowakei:"SK",Slowenien:"SI",Nigeria:"NG",Kuba:"CU",Albanien:"AL",Serbien:"RS"});
+const FIFA={Deutschland:"GER",Paraguay:"PAR",Frankreich:"FRA",Schweden:"SWE",Südafrika:"RSA",Kanada:"CAN",Niederlande:"NED",Marokko:"MAR",Portugal:"POR",Kroatien:"CRO",Spanien:"ESP",Österreich:"AUT",USA:"USA","Bosnien-Herzegowina":"BIH",Belgien:"BEL",Senegal:"SEN",Brasilien:"BRA",Japan:"JPN",Elfenbeinküste:"CIV",Norwegen:"NOR",Mexiko:"MEX",Ecuador:"ECU",England:"ENG","DR Kongo":"COD",Argentinien:"ARG","Kap Verde":"CPV",Australien:"AUS",Ägypten:"EGY",Schweiz:"SUI",Algerien:"ALG",Kolumbien:"COL",Ghana:"GHA",Uruguay:"URU",Italien:"ITA",Tschechoslowakei:"TCH",Ungarn:"HUN",Jugoslawien:"YUG",Sowjetunion:"URS",Chile:"CHI",Wales:"WAL",Nordirland:"NIR",Nordkorea:"PRK",Peru:"PER",Bulgarien:"BUL",Polen:"POL",Dänemark:"DEN",Irland:"IRL",Kamerun:"CMR","Costa Rica":"CRC",Rumänien:"ROU",Russland:"RUS",Südkorea:"KOR",Türkei:"TUR",Ukraine:"UKR",Griechenland:"GRE",Tschechien:"CZE",Island:"ISL",Slowakei:"SVK",Georgien:"GEO",Slowenien:"SVN",Schottland:"SCO","Saudi-Arabien":"KSA",Nigeria:"NGA",Kuba:"CUB",Katar:"QAT",Haiti:"HAI",Curacao:"CUW",Tunesien:"TUN",Iran:"IRN",Neuseeland:"NZL",Irak:"IRQ",Jordanien:"JOR",Usbekistan:"UZB",Panama:"PAN"};
+const code=n=>FIFA[n]||String(n).slice(0,3).toUpperCase();
+const fo=n=>(fl(n)||"").trim();
+
+/* ================== ERGÄNZUNGEN: TURNIERBÄUME ================== */
+const WMX={
+1938:{qf:[["Italien","Frankreich","3:1"],["Brasilien","Tschechoslowakei","2:1 (Wdh. nach 1:1 n.V.)"],["Ungarn","Schweiz","2:0"],["Schweden","Kuba","8:0"]]},
+1986:{r16:[["Mexiko","Bulgarien","2:0"],["Belgien","Sowjetunion","4:3 n.V."],["Brasilien","Polen","4:0"],["Argentinien","Uruguay","1:0"],["Frankreich","Italien","2:0"],["Deutschland","Marokko","1:0"],["England","Paraguay","3:0"],["Spanien","Dänemark","5:1"]]},
+1990:{r16:[["Kamerun","Kolumbien","2:1 n.V."],["Tschechoslowakei","Costa Rica","4:1"],["Argentinien","Brasilien","1:0"],["Deutschland","Niederlande","2:1"],["Irland","Rumänien","0:0 n.V., 5:4 i.E."],["Italien","Uruguay","2:0"],["Jugoslawien","Spanien","2:1 n.V."],["England","Belgien","1:0 n.V."]]},
+1994:{r16:[["Deutschland","Belgien","3:2"],["Spanien","Schweiz","3:0"],["Schweden","Saudi-Arabien","3:1"],["Rumänien","Argentinien","3:2"],["Niederlande","Irland","2:0"],["Brasilien","USA","1:0"],["Italien","Nigeria","2:1 n.V."],["Bulgarien","Mexiko","1:1 n.V., 3:1 i.E."]]},
+1998:{r16:[["Italien","Norwegen","1:0"],["Brasilien","Chile","4:1"],["Frankreich","Paraguay","1:0 Golden Goal"],["Dänemark","Nigeria","4:1"],["Deutschland","Mexiko","2:1"],["Niederlande","Jugoslawien","2:1"],["Kroatien","Rumänien","1:0"],["Argentinien","England","2:2 n.V., 4:3 i.E."]]},
+2002:{r16:[["Deutschland","Paraguay","1:0"],["England","Dänemark","3:0"],["Senegal","Schweden","2:1 Golden Goal"],["Spanien","Irland","1:1 n.V., 3:2 i.E."],["USA","Mexiko","2:0"],["Brasilien","Belgien","2:0"],["Türkei","Japan","1:0"],["Südkorea","Italien","2:1 Golden Goal"]]},
+2006:{r16:[["Deutschland","Schweden","2:0"],["Argentinien","Mexiko","2:1 n.V."],["Italien","Australien","1:0"],["Ukraine","Schweiz","0:0 n.V., 3:0 i.E."],["England","Ecuador","1:0"],["Portugal","Niederlande","1:0"],["Brasilien","Ghana","3:0"],["Frankreich","Spanien","3:1"]]},
+2010:{r16:[["Uruguay","Südkorea","2:1"],["Ghana","USA","2:1 n.V."],["Deutschland","England","4:1"],["Argentinien","Mexiko","3:1"],["Niederlande","Slowakei","2:1"],["Brasilien","Chile","3:0"],["Paraguay","Japan","0:0 n.V., 5:3 i.E."],["Spanien","Portugal","1:0"]]},
+2014:{r16:[["Brasilien","Chile","1:1 n.V., 3:2 i.E."],["Kolumbien","Uruguay","2:0"],["Niederlande","Mexiko","2:1"],["Costa Rica","Griechenland","1:1 n.V., 5:3 i.E."],["Frankreich","Nigeria","2:0"],["Deutschland","Algerien","2:1 n.V."],["Argentinien","Schweiz","1:0 n.V."],["Belgien","USA","2:1 n.V."]]},
+2018:{r16:[["Frankreich","Argentinien","4:3"],["Uruguay","Portugal","2:1"],["Russland","Spanien","1:1 n.V., 4:3 i.E."],["Kroatien","Dänemark","1:1 n.V., 3:2 i.E."],["Brasilien","Mexiko","2:0"],["Belgien","Japan","3:2"],["Schweden","Schweiz","1:0"],["England","Kolumbien","1:1 n.V., 4:3 i.E."]]},
+2022:{r16:[["Niederlande","USA","3:1"],["Argentinien","Australien","2:1"],["Frankreich","Polen","3:1"],["England","Senegal","3:0"],["Kroatien","Japan","1:1 n.V., 3:1 i.E."],["Brasilien","Südkorea","4:1"],["Marokko","Spanien","0:0 n.V., 3:0 i.E."],["Portugal","Schweiz","6:1"]]},
+2026:{
+ r32:[["Kanada","Südafrika","1:0","28.06. · Los Angeles"],["Brasilien","Japan","2:1","29.06. · Houston"],["Paraguay","Deutschland","1:1 n.V., 4:3 i.E.","29.06. · Boston"],["Marokko","Niederlande","1:1 n.V., 3:2 i.E.","30.06. · Monterrey"],["Norwegen","Elfenbeinküste","2:1","30.06. · Dallas"],["Frankreich","Schweden","3:0","30.06. · New York/New Jersey"],["Mexiko","Ecuador","2:0","01.07. · Mexiko-Stadt"],["England","DR Kongo","2:1","01.07. · Atlanta"],["Belgien","Senegal","3:2 n.V.","01.07. · Seattle"],["USA","Bosnien-Herzegowina","2:0","02.07. · San Francisco"],["Spanien","Österreich","3:0","02.07. · Los Angeles"],["Portugal","Kroatien","2:1","03.07. · Toronto"],["Schweiz","Algerien","2:0","03.07. · Vancouver"],["Ägypten","Australien","1:1 n.V., 4:2 i.E.","03.07. · Dallas"],["Argentinien","Kap Verde","3:2 n.V.","04.07. · Miami"],["Kolumbien","Ghana","1:0","04.07. · Kansas City"]],
+ r16:[["Marokko","Kanada","3:0","04.07. · Houston"],["Frankreich","Paraguay","1:0","04.07. · Philadelphia"],["Norwegen","Brasilien","2:1","05.07. · New York/New Jersey"],["England","Mexiko","3:2","06.07. · Mexiko-Stadt"],["Spanien","Portugal","1:0","06.07. · Dallas"],["Belgien","USA","4:1","06.07. · Seattle"],["Argentinien","Ägypten","3:2","07.07. · Atlanta"],["Schweiz","Kolumbien","0:0 n.V., 4:3 i.E.","07.07. · Vancouver"]],
+ qf:[["Frankreich","Marokko","2:0","09.07. · Boston"],["Spanien","Belgien","2:1","10.07. · Los Angeles"],["England","Norwegen","2:1 n.V.","11.07. · Miami"],["Argentinien","Schweiz","3:1 n.V.","12.07. · Kansas City"]],
+ sf:[["Spanien","Frankreich","2:0","14.07. · Dallas"],["Argentinien","England","2:1","15.07. · Atlanta"]],
+ fi:"19.07.2026 · New York/New Jersey (MetLife Stadium) · Tor: Ferran Torres (106.)",p3i:"18.07.2026 · Miami",dates:"11. Juni – 19. Juli 2026",
+ groups:[
+  ["A","Mexiko|3|0|0|6:0|9","Südafrika|1|1|1|2:3|4","Südkorea|1|0|2|2:3|3","Tschechien|0|1|2|2:6|1"],
+  ["B","Schweiz|2|1|0|7:3|7","Kanada|1|1|1|8:3|4","Bosnien-Herzegowina|1|1|1|5:6|4","Katar|0|1|2|2:10|1"],
+  ["C","Brasilien|2|1|0|7:1|7","Marokko|2|1|0|6:3|7","Schottland|1|0|2|1:4|3","Haiti|0|0|3|2:8|0"],
+  ["D","USA|2|0|1|8:4|6","Australien|1|1|1|2:2|4","Paraguay|1|1|1|2:4|4","Türkei|1|0|2|3:5|3"],
+  ["E","Deutschland|2|0|1|10:4|6","Elfenbeinküste|2|0|1|4:2|6","Ecuador|1|1|1|2:2|4","Curacao|0|1|2|1:9|1"],
+  ["F","Niederlande|2|1|0|10:4|7","Japan|1|2|0|7:3|5","Schweden|1|1|1|7:7|4","Tunesien|0|0|3|2:12|0"],
+  ["G","Belgien|1|2|0|6:2|5","Ägypten|1|2|0|5:3|5","Iran|0|3|0|3:3|3","Neuseeland|0|1|2|4:10|1"],
+  ["H","Spanien|2|1|0|5:0|7","Kap Verde|0|3|0|2:2|3","Uruguay|0|2|1|3:4|2","Saudi-Arabien|0|2|1|1:5|2"],
+  ["I","Frankreich|3|0|0|10:2|9","Norwegen|2|0|1|8:7|6","Senegal|1|0|2|8:6|3","Irak|0|0|3|1:12|0"],
+  ["J","Argentinien|3|0|0|8:1|9","Österreich|1|1|1|6:6|4","Algerien|1|1|1|5:7|4","Jordanien|0|0|3|3:8|0"],
+  ["K","Kolumbien|2|1|0|4:1|7","Portugal|1|2|0|6:1|5","DR Kongo|1|1|1|4:3|4","Usbekistan|0|0|3|2:11|0"],
+  ["L","England|2|1|0|6:2|7","Kroatien|2|0|1|5:5|6","Ghana|1|1|1|2:2|4","Panama|0|0|3|0:4|0"]]}
+};
+WM.forEach(o=>Object.assign(o,WMX[o.y]||{}));
+const EMX={
+1996:{qf:[["England","Spanien","0:0 n.V., 4:2 i.E."],["Frankreich","Niederlande","0:0 n.V., 5:4 i.E."],["Deutschland","Kroatien","2:1"],["Tschechien","Portugal","1:0"]]},
+2000:{qf:[["Portugal","Türkei","2:0"],["Italien","Rumänien","2:0"],["Niederlande","Jugoslawien","6:1"],["Frankreich","Spanien","2:1"]]},
+2004:{qf:[["Portugal","England","2:2 n.V., 6:5 i.E."],["Griechenland","Frankreich","1:0"],["Niederlande","Schweden","0:0 n.V., 5:4 i.E."],["Tschechien","Dänemark","3:0"]]},
+2016:{r16:[["Polen","Schweiz","1:1 n.V., 5:4 i.E."],["Wales","Nordirland","1:0"],["Portugal","Kroatien","1:0 n.V."],["Frankreich","Irland","2:1"],["Deutschland","Slowakei","3:0"],["Belgien","Ungarn","4:0"],["Italien","Spanien","2:0"],["Island","England","2:1"]]},
+2021:{r16:[["Dänemark","Wales","4:0"],["Italien","Österreich","2:1 n.V."],["Tschechien","Niederlande","2:0"],["Belgien","Portugal","1:0"],["Spanien","Kroatien","5:3 n.V."],["Schweiz","Frankreich","3:3 n.V., 5:4 i.E."],["England","Deutschland","2:0"],["Ukraine","Schweden","2:1 n.V."]]},
+2024:{r16:[["Schweiz","Italien","2:0"],["Deutschland","Dänemark","2:0"],["England","Slowakei","2:1 n.V."],["Spanien","Georgien","4:1"],["Frankreich","Belgien","1:0"],["Portugal","Slowenien","0:0 n.V., 3:0 i.E."],["Niederlande","Rumänien","3:0"],["Türkei","Österreich","2:1"]]}
+};
+EM.forEach(o=>Object.assign(o,EMX[o.y]||{}));
+
+/* ================== GRUNDLAGEN ================== */
+const count=(arr,key)=>{const m={};arr.forEach(o=>{const v=typeof key==="function"?key(o):o[key];(Array.isArray(v)?v:[v]).forEach(x=>{if(x)m[x]=(m[x]||0)+1})});return Object.entries(m).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))};
+function bars(list,max=10,flagFn=fl){const top=list.slice(0,max),mx=top[0]?top[0][1]:1;return `<div class="bars">${top.map(([n,c])=>`<div class="bar" data-pr="${esc(n)}"><div class="nm">${flagFn(n)}${esc(n)}</div><div class="t"><i data-w="${(c/mx*100).toFixed(1)}%"></i></div><div class="n">${c}</div></div>`).join("")}</div>`}
+const isP3=o=>/\d/.test(o.p3s||"")&&o.p3s!=="HF";
+const keyOf=y=>String(y).replace("/","-");
+
+const AREAS=[
+ {id:"wm",t:"Weltmeisterschaft",k:"WM",ic:"🌍",col:"#f5c542",big:1},
+ {id:"em",t:"Europameisterschaft",k:"EM",ic:"🇪🇺",col:"#4c8dff",big:1},
+ {id:"cl",t:"Champions League",k:"CL",ic:"⭐",col:"#9b8cff",big:1,data:()=>CL,notes:CLNOTE,sub:"Bis 1992: Europapokal der Landesmeister"},
+ {id:"el",t:"Europa League",k:"EL",ic:"🟠",col:"#ff8a3d",data:()=>EL,notes:ELNOTE,sub:"Bis 2009: UEFA-Pokal · ⇄ = Hin- und Rückspiel"},
+ {id:"ecl",t:"Conference League",k:"ECL",ic:"🔷",col:"#2dd4bf",data:()=>ECL,notes:ECLNOTE,sub:"Der dritte Europapokal seit 2021/22"},
+ {id:"ballon",t:"Ballon d'Or",k:"BDO",ic:"🥇",col:"#ffd166"},
+ {id:"bundesliga",t:"Bundesliga",k:"BL",ic:"🇩🇪",col:"#ff4d5e"},
+ {id:"pokal",t:"DFB-Pokal",k:"DFB",ic:"🏆",col:"#a3e635"},
+ {id:"ligen",t:"Topligen",k:"TOP5",ic:"🌐",col:"#38bdf8"},
+ {id:"copa",t:"Copa América",k:"COPA",ic:"🌎",col:"#f472b6"},
+ {id:"weitere",t:"Weitere Titel",k:"MEHR",ic:"➕",col:"#c084fc"},
+ {id:"rekorde",t:"Rekorde",k:"REK",ic:"📊",col:"#fb7185"},
+ {id:"ranglisten",t:"Ranglisten",k:"RANK",ic:"🏅",col:"#fbbf24"},
+ {id:"lexikon",t:"Lexikon",k:"LEX",ic:"📖",col:"#94a3b8"},
+ {id:"quiz",t:"Quiz",k:"QUIZ",ic:"❓",col:"#22d3ee"}];
+const A=Object.fromEntries(AREAS.map(a=>[a.id,a]));
+const app=document.getElementById("app"),crumbs=document.getElementById("crumbs");
+const TAB={};
+function go(h){if(location.hash.slice(1)!==h)location.hash=h;else render()}
+window.addEventListener("hashchange",()=>{closeSheet();render()});
+function route(){const h=location.hash.slice(1);if(!h)return{p:"home"};const i=h.indexOf("-");const id=i<0?h:h.slice(0,i);if(!A[id])return{p:"home"};return{p:id,item:i<0?null:h.slice(i+1)}}
+function setAcc(c){if(TH.mode==="custom"&&!TH.useArea)c=TH.acc;document.documentElement.style.setProperty("--acc",c)}
+function crumb(parts){crumbs.innerHTML=`<a data-go="">⌂ start</a>`+parts.map(([l,h])=>` <span>›</span> `+(h!=null?`<a data-go="${h}">${esc(l)}</a>`:`<b>${esc(l)}</b>`)).join("")}
+function ph(a,title,sub){return `<div class="ph"><div class="lb">// ${String(AREAS.indexOf(a)+1).padStart(2,"0")} ${esc(a.t.toUpperCase())}</div><h1>${title}</h1>${sub?`<p>${sub}</p>`:""}</div>`}
+const kp=items=>`<div class="kp">${items.map(([n,l])=>`<div class="k"><b>${n}</b>${l}</div>`).join("")}</div>`;
+function seg(key,tabs){const cur=TAB[key]||tabs[0][0];return `<div class="seg" data-seg="${key}">${tabs.map(([id,l])=>`<button data-tab="${id}" class="${id===cur?"on":""}">${l}</button>`).join("")}</div>`}
+const tabOf=(key,def)=>TAB[key]||def;
+
+function render(){
+  const r=route();const a=A[r.p];setAcc(a?a.col:"#f5c542");
+  document.getElementById("sq").value="";
+  if(r.p==="home"){crumbs.innerHTML=`<b>⌂ start</b>`;viewHome()}
+  else (V[r.p]||viewHome)(a,r.item);
+  window.scrollTo({top:0});afterRender();
+}
+function afterRender(){requestAnimationFrame(()=>{document.querySelectorAll(".bar .t i").forEach(i=>i.style.width=i.dataset.w);fitBracket()})}
+
+/* ================== START ================== */
+function areaInfo(id){
+ const L={wm:[`${WM.length} Turniere seit 1930`,`2026: 🇪🇸 Spanien`],em:[`${EM.length} Turniere seit 1960`,`2024: 🇪🇸 Spanien`],cl:[`${CL.length} Finals seit 1956`,`2026: Paris Saint-Germain`],el:[`${EL.length} Finals`,`2026: Aston Villa`],ecl:[`${ECL.length} Finals`,`2026: Crystal Palace`],ballon:[`${BDO.length} Verleihungen`,`2026: Harry Kane`],bundesliga:[`${BL.length} Spielzeiten`,`2025/26: Bayern München`],pokal:[`${POKAL.length} Sieger seit 1953`,`2026: Bayern München`],ligen:["5 Ligen · 10 Jahre","PL · LaLiga · Serie A …"],copa:[`${COPA.length} Turniere`,`2024: 🇦🇷 Argentinien`],weitere:["Frauen-WM · Frauen-EM","Nations League · Klub-WM"],rekorde:[`${REK.length} Bestmarken`,`${FAKTEN.length} Fakten`],ranglisten:["Wer hat die meisten Titel?","Vereine & Länder"],lexikon:[`${LEX.length} Begriffe`,"Abseits, Golden Goal …"],quiz:["10 Zufallsfragen",`Dein Rekord: ${hsGet()}`]};return L[id]||["",""]}
+function viewHome(){
+  setAcc("#f5c542");
+  app.innerHTML=`<div class="ph"><div class="lb">// FUSSBALL-CHRONIK · STAND NOV. 2026</div><h1>Alle Titel. Alle Finals. Alle Rekorde.</h1><p>Tippe auf einen Bereich – je tiefer du gehst, desto mehr Details.</p></div>
+  <div class="ticker"><span>🏆 WELTMEISTER <b>🇪🇸 SPANIEN</b></span><span>⭐ CL <b>PSG</b></span><span>🟠 EL <b>ASTON VILLA</b></span><span>🔷 ECL <b>CRYSTAL PALACE</b></span><span>🥇 BALLON D'OR <b>HARRY KANE</b></span><span>🇩🇪 MEISTER <b>BAYERN</b></span><span>🏆 DFB-POKAL <b>BAYERN</b></span><span>👟 WM-TORJÄGER <b>MBAPPÉ (10)</b></span></div>
+  <div class="bento">${AREAS.map((a,i)=>{const [s1,s2]=areaInfo(a.id);return `<div class="bt ${a.big?"big":""}" style="--c:${a.col}" data-go="${a.id}"><div class="lb">${String(i+1).padStart(2,"0")} // ${a.k}</div><div class="tt">${esc(a.t)}</div><div class="st">${esc(s1)}<br><span class="hl">${esc(s2)}</span></div><div class="em">${a.ic}</div><div class="arr">→</div></div>`}).join("")}</div>
+  <div class="card fact" style="margin-top:12px"><div class="lb">// WUSSTEST DU?</div><div id="fq" style="margin-top:6px;font-size:15px"></div><button class="btn" id="fn" style="margin-top:10px">Nächster Fakt →</button></div>`;
+  let fi=Math.floor(Math.random()*FAKTEN.length);const sf=()=>{document.getElementById("fq").textContent=FAKTEN[fi++%FAKTEN.length]};sf();document.getElementById("fn").onclick=sf;
+}
+const V={};
+
+/* ================== WM / EM ================== */
+function tourData(id){return id==="wm"?WM:EM}
+function tourLabel(o){return o.label||o.y}
+function tourList(a){
+  const D=tourData(a.id),key=a.id+"-list",tab=tabOf(key,"t");
+  crumb([[a.t,null]]);
+  let body="";
+  if(tab==="t"){
+    body=`<div class="tiles">${D.slice().reverse().map(o=>`<div class="yt" data-go="${a.id}-${o.y}"><div class="y">${tourLabel(o)}</div><div class="h">${hostFl(o.h)}</div><div class="w"><span class="bf">${fo(o.w)}</span>${esc(o.w)}</div><div class="s">${esc(o.s)} · ${code(o.f)}</div></div>`).join("")}</div>`;
+  } else if(tab==="s"){
+    body=`<div class="two"><div class="card"><h3>🏆 Titel</h3>${bars(count(D,"w"),12)}</div><div class="card"><h3>🥈 Finalteilnahmen</h3>${bars(count(D,o=>[o.w,o.f]),12)}</div><div class="card"><h3>🔝 Unter den letzten Vier</h3>${bars(count(D,o=>[o.w,o.f,o.p3,o.p4]),12)}</div><div class="card"><h3>🏟️ Gastgeber</h3>${bars(count(D,o=>o.h.split(/ & |, /).map(x=>x.replace(/\s*\(.*\)/,""))),12)}</div></div>`;
+  } else {
+    body=`<div class="card" style="padding:0"><table class="tb"><thead><tr><th>Jahr</th><th>Torschützenkönig</th><th>Tore</th><th class="hm">Bester Spieler</th></tr></thead><tbody>${D.slice().reverse().map(o=>`<tr data-go="${a.id}-${o.y}"><td class="y">${tourLabel(o)}</td><td>${esc(o.ts)}</td><td class="y">${o.tg||"–"}</td><td class="hm">${esc(o.bp||"–")}</td></tr>`).join("")}</tbody></table></div>`;
+  }
+  const st=count(D,"w");
+  app.innerHTML=ph(a,a.t,a.id==="wm"?"Alle Weltmeisterschaften seit 1930 – tippe auf ein Jahr":"Alle Europameisterschaften seit 1960 – tippe auf ein Jahr")+kp([[D.length,"Turniere"],[st.length,"verschiedene Sieger"],[st[0][1]+"×",st[0][0]+" (Rekord)"]])+seg(key,[["t","📅 Turniere"],["s","📊 Statistik"],["k","👟 Torjäger"]])+body;
+}
+function buildTree(o){
+  const names=["r32","r16","qf","sf"].filter(k=>o[k]&&o[k].length);if(!names.length)return null;
+  const rounds=names.map(k=>o[k]);
+  const b=(team,ri)=>{if(ri<0)return{leaf:team};const m=rounds[ri].find(x=>x[0]===team);if(!m)return{leaf:team};return{m,rk:names[ri],a:b(m[0],ri-1),b:b(m[1],ri-1)}};
+  return{D:names.length,names,L:b(o.w,names.length-1),R:b(o.f,names.length-1)};
+}
+const RN={r32:"1/16",r16:"1/8",qf:"1/4",sf:"1/2"},RNL={r32:"Sechzehntelfinale",r16:"Achtelfinale",qf:"Viertelfinale",sf:"Halbfinale",p3:"Spiel um Platz 3",f:"Finale"};
+let MATCHES=[],BK={zoom:false};
+function regM(m,rk){MATCHES.push({m,rk});return MATCHES.length-1}
+const chip=(t,w)=>`<div class="tm ${w?"win":"lose"}"><span class="f">${fo(t)||"🏳️"}</span><span class="c">${code(t)}</span></div>`;
+function bracketHTML(o){
+  const T=buildTree(o);if(!T)return "";
+  const D=T.D,bw=34,gx=10,st=bw+gx,ch=29,bh=ch*2+3,rh=bh+8,fw=76,fh=46,top=26;
+  const L=Math.pow(2,D-1);
+  let H=Math.max(top+L*rh+8,360);const t0=top+(H-top-L*rh)/2;
+  const x0=D*st,xl=c=>c*st,xr=c=>x0+fw+gx+(D-1-c)*st,W=xr(0)+bw;
+  const P=(x1,y1,x2,y2)=>{const xm=(x1+x2)/2;return `<path d="M${x1} ${y1}H${xm}V${y2}H${x2}"/>`};
+  let boxes="",lines="";
+  function lay(n,c,side,cnt){
+    let y;
+    if(c===0||!n.a||!n.a.m||!n.b.m){const sp=Math.pow(2,c);y=t0+(cnt.k+sp/2)*rh-4;cnt.k+=sp}
+    else{const ya=lay(n.a,c-1,side,cnt),yb=lay(n.b,c-1,side,cnt);y=(ya+yb)/2;
+      [ya,yb].forEach(yy=>{lines+=side==="L"?P(xl(c-1)+bw,yy,xl(c),y):P(xr(c-1),yy,xr(c)+bw,y)})}
+    const x=side==="L"?xl(c):xr(c);
+    boxes+=`<div class="mb" style="left:${x}px;top:${y-bh/2}px" data-mi="${regM(n.m,n.rk)}">${chip(n.m[0],1)}${chip(n.m[1],0)}</div>`;
+    return y;
+  }
+  const yL=lay(T.L,D-1,"L",{k:0}),yR=lay(T.R,D-1,"R",{k:0}),fy=(yL+yR)/2;
+  lines+=P(xl(D-1)+bw,yL,x0,fy)+P(xr(D-1),yR,x0+fw,fy);
+  let lab="";for(let c=0;c<D;c++){lab+=`<div class="rl" style="left:${xl(c)}px;width:${bw}px">${RN[T.names[c]]}</div><div class="rl" style="left:${xr(c)}px;width:${bw}px">${RN[T.names[c]]}</div>`}
+  lab+=`<div class="rl" style="left:${x0}px;width:${fw}px">F</div>`;
+  const fin=`<div class="mb fin" style="left:${x0}px;top:${fy-fh/2}px;width:${fw}px;height:${fh}px" data-mi="${regM([o.w,o.f,o.s,o.fi],"f")}">${chip(o.w,1)}${chip(o.f,0)}</div><div class="cup" style="left:${x0}px;width:${fw}px;top:${fy-fh/2-62}px">🏆</div><div class="fsc" style="left:${x0-20}px;width:${fw+40}px;top:${fy+fh/2+4}px">${esc(o.s)}</div>`;
+  let p3="";if(isP3(o)){const py=fy+fh/2+44;p3=`<div class="p3l" style="left:${x0-30}px;width:${fw+60}px;top:${py-16}px">Spiel um Platz 3</div><div class="mb fin p3" style="left:${x0}px;top:${py}px;width:${fw}px;height:${fh}px" data-mi="${regM([o.p3,o.p4,o.p3s,o.p3i],"p3")}">${chip(o.p3,1)}${chip(o.p4,0)}</div>`;H=Math.max(H,py+fh+8)}
+  return `<div class="bktools"><span class="mut">Tippe auf ein Spiel für Details</span><button class="btn sm" id="bkz">${BK.zoom?"🔍 Einpassen":"🔍 Vergrößern"}</button></div><div class="bkw" id="bkw"><div class="bk" id="bk" style="width:${W}px;height:${H}px" data-w="${W}"><svg width="${W}" height="${H}">${lines}</svg>${lab}${boxes}${fin}${p3}</div></div>`;
+}
+function fitBracket(){const w=document.getElementById("bkw"),b=document.getElementById("bk");if(!w||!b)return;const W=+b.dataset.w,s=BK.zoom?Math.max(1.15,w.clientWidth/W):Math.min(1.5,w.clientWidth/W);b.style.zoom=s;}
+window.addEventListener("resize",fitBracket);
+function mrow(m,rk){return `<div class="mrow" data-mi="${regM(m,rk)}"><div class="a">${esc(m[0])} <span class="f">${fo(m[0])}</span></div><div class="sc">${esc(m[2]||"–")}</div><div class="b"><span class="f">${fo(m[1])}</span> ${esc(m[1])}</div>${m[3]?`<div class="inf">${esc(m[3])}</div>`:""}</div>`}
+function tourDetail(a,key){
+  const D=tourData(a.id),i=D.findIndex(o=>String(o.y)===key);if(i<0){go(a.id);return}
+  const o=D[i],lbl=tourLabel(o),tk=a.id+"-"+o.y;MATCHES=[];
+  crumb([[a.t,a.id],[String(lbl),null]]);
+  const tabs=[["u","Übersicht"]];if(buildTree(o))tabs.push(["b","Turnierbaum"]);if(o.sf||o.qf)tabs.push(["m","Alle Spiele"]);if(o.groups)tabs.push(["g","Gruppen"]);
+  const tab=tabOf(tk,"u");let body="";
+  if(tab==="u"){
+    const ko=["r32","r16","qf","sf"].reduce((s,k)=>s+(o[k]?o[k].length:0),0)+1+(isP3(o)?1:0);
+    body=`<div class="card"><div class="lb">// FINALE${o.fi?" · "+esc(o.fi):""}</div><div class="fin-row"><div class="t" data-pr="${esc(o.w)}"><span class="bf">${fo(o.w)}</span><b>${esc(o.w)}</b></div><div class="sc">${esc(o.s)}</div><div class="t" data-pr="${esc(o.f)}"><span class="bf">${fo(o.f)}</span><span>${esc(o.f)}</span></div></div></div>
+    <div class="card"><div class="lb">// PLATZIERUNGEN</div>${[[1,o.w,"Weltmeister"],[2,o.f,"Finalist"],[3,o.p3,o.p3s==="HF"?"Halbfinale":"Platz 3"],[4,o.p4,o.p3s==="HF"?"Halbfinale":"Platz 4"]].map(([n,t,l])=>`<div class="pod" data-pr="${esc(t)}"><span class="md m${o.p3s==="HF"&&n>2?3:n}">${o.p3s==="HF"&&n>2?"HF":n}</span><span class="bf">${fo(t)}</span><b>${esc(t)}</b><span class="mut">${a.id==="em"&&n===1?"Europameister":l}</span><span class="arr">›</span></div>`).join("")}${isP3(o)?`<div class="mut sm" style="margin-top:6px">Spiel um Platz 3: ${esc(o.p3)} – ${esc(o.p4)} ${esc(o.p3s)}</div>`:o.p3s&&o.p3s!=="HF"?`<div class="mut sm" style="margin-top:6px">${esc(o.p3s)}</div>`:""}</div>
+    <div class="kv"><div><span>👟 Torschützenkönig</span><b>${esc(o.ts)}</b>${o.tg?`<i>${o.tg} Tore</i>`:""}</div><div><span>⭐ Bester Spieler</span><b>${esc(o.bp||"nicht vergeben")}</b></div><div><span>🏟️ Gastgeber</span><b>${hostFl(o.h)} ${esc(o.h)}</b>${o.dates?`<i>${esc(o.dates)}</i>`:""}</div><div><span>👥 Teilnehmer</span><b>${o.t} Teams</b>${o.r32||o.r16||o.qf||o.sf?`<i>${ko} K.-o.-Spiele erfasst</i>`:""}</div></div>
+    ${o.n?`<div class="note">💡 ${esc(o.n)}</div>`:""}
+    ${tabs.length>1?`<div class="next">${tabs.slice(1).map(([t,l])=>`<button class="btn" data-tab-go="${t}">${l} →</button>`).join("")}</div>`:""}`;
+  } else if(tab==="b"){body=`<div class="card bkcard">${bracketHTML(o)}</div>`}
+  else if(tab==="m"){
+    body=["r32","r16","qf","sf"].filter(k=>o[k]).map(k=>`<div class="card"><div class="lb">// ${RNL[k].toUpperCase()}</div>${o[k].map(m=>mrow(m,k)).join("")}</div>`).join("")+
+    (isP3(o)?`<div class="card"><div class="lb">// SPIEL UM PLATZ 3</div>${mrow([o.p3,o.p4,o.p3s,o.p3i],"p3")}</div>`:"")+`<div class="card"><div class="lb">// FINALE</div>${mrow([o.w,o.f,o.s,o.fi],"f")}</div>`;
+  } else if(tab==="g"){
+    const ko=new Set((o.r32||[]).flatMap(m=>[m[0],m[1]]));
+    body=`<div class="mut sm" style="margin-bottom:8px"><span class="dot q"></span> weiter als Erster/Zweiter &nbsp; <span class="dot q3"></span> weiter als einer der 8 besten Dritten</div><div class="gg">${o.groups.map(g=>`<div class="card gcard"><div class="lb">// GRUPPE ${g[0]}</div><table class="gt"><thead><tr><th></th><th>Team</th><th>S-U-N</th><th>Tore</th><th>Pkt</th></tr></thead><tbody>${g.slice(1).map((r,i)=>{const [t,s,u,n,to,p]=r.split("|");const q=i<2?"q":ko.has(t)?"q3":"";return `<tr data-pr="${esc(t)}"><td><span class="dot ${q}"></span></td><td>${fo(t)} ${esc(t)}</td><td>${s}-${u}-${n}</td><td>${to}</td><td><b>${p}</b></td></tr>`}).join("")}</tbody></table></div>`).join("")}</div>`;
+  }
+  const pv=D[i-1],nx=D[i+1];
+  app.innerHTML=`<div class="hero"><div class="lb">// ${a.k} ${lbl} · ${esc(o.h.toUpperCase())}</div><div class="champ" data-pr="${esc(o.w)}"><span class="bigflag">${fo(o.w)}</span><div><div class="lb2">${a.id==="wm"?"WELTMEISTER":"EUROPAMEISTER"}</div><div class="h1">${esc(o.w)}</div><div class="mut">${esc(o.s)} gegen ${esc(o.f)}</div></div></div>
+  <div class="yrnav">${pv?`<button class="btn sm" data-go="${a.id}-${pv.y}">‹ ${tourLabel(pv)}</button>`:"<span></span>"}<span class="mut sm">${hostFl(o.h)}</span>${nx?`<button class="btn sm" data-go="${a.id}-${nx.y}">${tourLabel(nx)} ›</button>`:"<span></span>"}</div></div>`+seg(tk,tabs)+body;
+  document.getElementById("bkz")&&(document.getElementById("bkz").onclick=()=>{BK.zoom=!BK.zoom;render()});
+}
+V.wm=V.em=(a,item)=>item?tourDetail(a,item):tourList(a);
+
+/* ================== EUROPAPOKALE ================== */
+function finalList(a){
+  const D=a.data(),key=a.id+"-list",tab=tabOf(key,"t");crumb([[a.t,null]]);
+  const c=count(D,"w"),de=D.filter(o=>CLUBMAP[o.w]==="DE");let body="";
+  if(tab==="t"){
+    const decs=[...new Set(D.map(o=>Math.floor(o.y/10)*10))].reverse();const dsel=TAB[key+"d"]||"all";
+    body=`<div class="chips">${[["all","Alle"],...decs.map(d=>[String(d),d+"er"])].map(([v,l])=>`<button class="chip ${dsel===v?"on":""}" data-dec="${v}">${l}</button>`).join("")}</div><div class="tiles">${D.slice().reverse().filter(o=>dsel==="all"||Math.floor(o.y/10)*10===+dsel).map(o=>`<div class="yt" data-go="${a.id}-${o.y}"><div class="y">${o.y}</div><div class="h">${o.o&&o.o!=="–"?"📍":"⇄"}</div><div class="w"><span class="bf">${fo(o.w)}</span>${esc(o.w)}</div><div class="s">${esc(o.s.replace(" ⇄",""))} · ${esc(o.f)}</div></div>`).join("")}</div>`;
+  } else {
+    body=`<div class="two"><div class="card"><h3>🏆 Rekordsieger</h3>${bars(c,12)}</div><div class="card"><h3>🌍 Siege nach Ländern</h3>${bars(count(D,o=>CODE2NAME[CLUBMAP[o.w]]),10)}</div><div class="card"><h3>😢 Verlorene Finals</h3>${bars(count(D,"f"),10)}</div><div class="card"><h3>🇩🇪 Deutsche Sieger</h3>${de.length?de.map(o=>`<div class="pod" data-go="${a.id}-${o.y}"><span class="md m1">${o.y}</span>${esc(o.w)}<span class="arr">›</span></div>`).join(""):`<p class="mut">Noch kein deutscher Sieger.</p>`}</div></div>`;
+  }
+  app.innerHTML=ph(a,a.t,a.sub)+kp([[D.length,"Finals"],[c.length,"Sieger"],[c[0][1]+"×",c[0][0]],[de.length,"deutsche Siege"]])+seg(key,[["t","📅 Finals"],["s","📊 Statistik"]])+body;
+  app.querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>{TAB[key+"d"]=b.dataset.dec;render()});
+}
+function clubBox(a,D,name,y){
+  const won=D.filter(o=>o.w===name),lost=D.filter(o=>o.f===name);
+  return `<div class="card"><div class="pod" data-pr="${esc(name)}"><span class="bf">${fo(name)}</span><b>${esc(name)}</b><span class="mut">Profil</span><span class="arr">›</span></div><div class="sm" style="margin-top:8px">🏆 ${won.length}× gewonnen: ${won.map(o=>`<a class="yr ${o.y===y?"cur":""}" data-go="${a.id}-${o.y}">${o.y}</a>`).join(" ")||"–"}</div><div class="sm" style="margin-top:6px">😢 ${lost.length}× verloren: ${lost.map(o=>`<a class="yr ${o.y===y?"cur":""}" data-go="${a.id}-${o.y}">${o.y}</a>`).join(" ")||"–"}</div></div>`;
+}
+function finalDetail(a,key){
+  const D=a.data(),i=D.findIndex(o=>String(o.y)===key);if(i<0){go(a.id);return}
+  const o=D[i],pv=D[i-1],nx=D[i+1];crumb([[a.t,a.id],[String(o.y),null]]);
+  const nth=D.slice(0,i+1).filter(x=>x.w===o.w).length;
+  app.innerHTML=`<div class="hero"><div class="lb">// ${a.k}-FINALE ${o.y}${o.o&&o.o!=="–"?" · 📍 "+esc(o.o.toUpperCase()):" · HIN- & RÜCKSPIEL"}</div><div class="champ" data-pr="${esc(o.w)}"><span class="bigflag">${fo(o.w)||"🏆"}</span><div><div class="lb2">SIEGER · ${nth}. TITEL</div><div class="h1">${esc(o.w)}</div></div></div>
+  <div class="fin-row" style="margin-top:12px"><div class="t" data-pr="${esc(o.w)}"><span class="bf">${fo(o.w)}</span><b>${esc(o.w)}</b></div><div class="sc">${esc(o.s)}</div><div class="t" data-pr="${esc(o.f)}"><span class="bf">${fo(o.f)}</span><span>${esc(o.f)}</span></div></div>
+  <div class="yrnav">${pv?`<button class="btn sm" data-go="${a.id}-${pv.y}">‹ ${pv.y}</button>`:"<span></span>"}${nx?`<button class="btn sm" data-go="${a.id}-${nx.y}">${nx.y} ›</button>`:"<span></span>"}</div></div>
+  ${a.notes&&a.notes[o.y]?`<div class="note">💡 ${esc(a.notes[o.y])}</div>`:""}
+  <div class="lb sec">// DIE FINALISTEN IN DIESEM WETTBEWERB</div>${clubBox(a,D,o.w,o.y)}${clubBox(a,D,o.f,o.y)}`;
+}
+V.cl=V.el=V.ecl=(a,item)=>item?finalDetail(a,item):finalList(a);
+
+/* ================== BALLON D'OR ================== */
+V.ballon=(a,item)=>{
+  if(item){const i=BDO.findIndex(o=>o.y===item);if(i<0)return go("ballon");const o=BDO[i],pv=BDO[i-1],nx=BDO[i+1];crumb([[a.t,"ballon"],[o.y,null]]);
+    const all=BDO.filter(x=>x.p===o.p),sameN=BDO.filter(x=>x.n===o.n),sameC=BDO.filter(x=>x.c===o.c);
+    const lst=(arr)=>arr.map(x=>`<a class="yr ${x.y===o.y?"cur":""}" data-go="ballon-${x.y}">${x.y} ${esc(x.p)}</a>`).join(" ");
+    app.innerHTML=`<div class="hero"><div class="lb">// BALLON D'OR ${o.y}</div><div class="champ"><span class="bigflag">${fo(o.n)||"🥇"}</span><div><div class="lb2">GOLDENER BALL · ${all.findIndex(x=>x.y===o.y)+1}. TITEL</div><div class="h1">${esc(o.p)}</div><div class="mut">${esc(o.n)} · ${esc(o.c)}</div></div></div>
+    <div class="yrnav">${pv?`<button class="btn sm" data-go="ballon-${pv.y}">‹ ${pv.y}</button>`:"<span></span>"}${nx?`<button class="btn sm" data-go="ballon-${nx.y}">${nx.y} ›</button>`:"<span></span>"}</div></div>
+    ${o.p2?`<div class="card"><div class="lb">// PODIUM</div><div class="pod"><span class="md m1">1</span><b>${esc(o.p)}</b></div><div class="pod"><span class="md m2">2</span>${esc(o.p2)}</div><div class="pod"><span class="md m3">3</span>${esc(o.p3)}</div></div>`:""}
+    <div class="card"><div class="lb">// ALLE TITEL VON ${esc(o.p.toUpperCase())}</div><div class="sm">${lst(all)}</div></div>
+    <div class="card"><div class="lb">// SIEGER AUS ${esc(o.n.toUpperCase())} (${sameN.length})</div><div class="sm">${lst(sameN)}</div><button class="btn sm" data-pr="${esc(o.n)}" style="margin-top:8px">${fo(o.n)} Länderprofil ›</button></div>
+    <div class="card"><div class="lb">// SIEGER BEI ${esc(o.c.toUpperCase())} (${sameC.length})</div><div class="sm">${lst(sameC)}</div><button class="btn sm" data-pr="${esc(o.c)}" style="margin-top:8px">${fo(o.c)} Vereinsprofil ›</button></div>`;return}
+  const key="ballon-list",tab=tabOf(key,"t");crumb([[a.t,null]]);let body;
+  if(tab==="t")body=`<div class="tiles">${BDO.slice().reverse().map(o=>`<div class="yt" data-go="ballon-${o.y}"><div class="y">${o.y}</div><div class="h">${fo(o.n)}</div><div class="w">${esc(o.p)}</div><div class="s">${esc(o.c)}</div></div>`).join("")}</div><div class="note">2020 wurde der Ballon d'Or wegen der Corona-Pandemie nicht vergeben.</div>`;
+  else if(tab==="s")body=`<div class="two"><div class="card"><h3>👑 Mehrfachsieger</h3>${bars(count(BDO,"p").filter(x=>x[1]>1),12,n=>fl((BDO.find(o=>o.p===n)||{}).n))}</div><div class="card"><h3>🌍 Nach Ländern</h3>${bars(count(BDO,"n"),10)}</div><div class="card"><h3>⚽ Nach Vereinen</h3>${bars(count(BDO,"c"),10)}</div></div>`;
+  else body=`<div class="card">${BDOW.slice().reverse().map(o=>`<div class="pod"><span class="md m1">${o.y}</span><span class="bf">${fo(o.n)}</span><b>${esc(o.p)}</b><span class="mut">${esc(o.n)}</span></div>`).join("")}</div>`;
+  app.innerHTML=ph(a,a.t,"Der „Goldene Ball“ für den besten Fußballer des Jahres – seit 1956")+kp([[BDO.length,"Verleihungen"],["8×","Messi (Rekord)"],["5×","Cristiano Ronaldo"]])+seg(key,[["t","📅 Sieger"],["s","📊 Statistik"],["f","👩 Frauen"]])+body;
+};
+
+/* ================== BUNDESLIGA & POKAL ================== */
+V.bundesliga=(a,item)=>{
+  if(item){const i=BL.findIndex(o=>keyOf(o.y)===item);if(i<0)return go("bundesliga");const o=BL[i],pv=BL[i-1],nx=BL[i+1];crumb([[a.t,"bundesliga"],[o.y,null]]);
+    const nth=BL.slice(0,i+1).filter(x=>x.w===o.w).length,all=BL.filter(x=>x.w===o.w);
+    const tsn=o.ts.split(" & ").map(t=>t.replace(/\s*\(.*\)/,""));
+    app.innerHTML=`<div class="hero"><div class="lb">// BUNDESLIGA ${o.y}</div><div class="champ" data-pr="${esc(o.w)}"><span class="bigflag">🏆</span><div><div class="lb2">DEUTSCHER MEISTER · ${nth}. BUNDESLIGA-TITEL</div><div class="h1">${esc(o.w)}</div></div></div>
+    <div class="yrnav">${pv?`<button class="btn sm" data-go="bundesliga-${keyOf(pv.y)}">‹ ${pv.y}</button>`:"<span></span>"}${nx?`<button class="btn sm" data-go="bundesliga-${keyOf(nx.y)}">${nx.y} ›</button>`:"<span></span>"}</div></div>
+    <div class="kv"><div><span>👟 Torschützenkönig</span><b>${esc(o.ts)}</b><i>${o.tg} Tore</i></div><div><span>📈 Titel bis heute</span><b>${all.length}× ${esc(o.w)}</b><i>seit 1963</i></div></div>
+    ${BLNOTE[o.y]?`<div class="note">💡 ${esc(BLNOTE[o.y])}</div>`:""}
+    <div class="card"><div class="lb">// ALLE MEISTERSCHAFTEN VON ${esc(o.w.toUpperCase())}</div><div class="sm">${all.map(x=>`<a class="yr ${x.y===o.y?"cur":""}" data-go="bundesliga-${keyOf(x.y)}">${x.y}</a>`).join(" ")}</div></div>
+    ${tsn.map(n=>{const k=BL.filter(x=>x.ts.includes(n));return `<div class="card"><div class="lb">// ${esc(n.toUpperCase())} – ${k.length}× TORSCHÜTZENKÖNIG</div><div class="sm">${k.map(x=>`<a class="yr ${x.y===o.y?"cur":""}" data-go="bundesliga-${keyOf(x.y)}">${x.y} (${x.tg})</a>`).join(" ")}</div></div>`}).join("")}`;return}
+  const key="bl-list",tab=tabOf(key,"t");crumb([[a.t,null]]);let body;
+  if(tab==="t")body=`<div class="tiles">${BL.slice().reverse().map(o=>`<div class="yt" data-go="bundesliga-${keyOf(o.y)}"><div class="y" style="font-size:19px">${o.y}</div><div class="w">${esc(o.w)}</div><div class="s">👟 ${esc(o.ts.split(" & ")[0].replace(/\s*\(.*\)/,""))}${o.ts.includes("&")?" u. a.":""} · ${o.tg}</div></div>`).join("")}</div>`;
+  else{const tc={};BL.forEach(o=>o.ts.split(" & ").forEach(t=>{const n=t.replace(/\s*\(.*\)/,"");tc[n]=(tc[n]||0)+1}));
+    body=`<div class="two"><div class="card"><h3>🏆 Meistertitel seit 1963</h3>${bars(count(BL,"w"),12)}</div><div class="card"><h3>👟 Mehrfache Torschützenkönige</h3>${bars(Object.entries(tc).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>1),12,()=>"")}</div></div><div class="note">Vor der Bundesliga (1903–1963) wurde der Meister in Endrunden ermittelt – z. B. 1. FC Nürnberg (8 Titel), Schalke 04 (7) und Bayern München (1932). Darum hat Bayern insgesamt 35 Meistertitel.</div>`}
+  app.innerHTML=ph(a,a.t,"Alle Deutschen Meister seit 1963/64 mit Torschützenkönig")+kp([[BL.length,"Spielzeiten"],[count(BL,"w").length,"Meister"],[41,"Tore Rekord (Lewandowski)"]])+seg(key,[["t","📅 Spielzeiten"],["s","📊 Statistik"]])+body;
+};
+V.pokal=(a,item)=>{
+  if(item){const i=POKAL.findIndex(o=>o.y===item);if(i<0)return go("pokal");const o=POKAL[i],pv=POKAL[i-1],nx=POKAL[i+1];crumb([[a.t,"pokal"],[o.y,null]]);
+    const nth=POKAL.slice(0,i+1).filter(x=>x.w===o.w).length,all=POKAL.filter(x=>x.w===o.w),lost=POKAL.filter(x=>x.f===o.w);
+    app.innerHTML=`<div class="hero"><div class="lb">// DFB-POKAL ${o.y}${+o.y>=1985?" · BERLIN":""}</div><div class="champ" data-pr="${esc(o.w)}"><span class="bigflag">🏆</span><div><div class="lb2">POKALSIEGER · ${nth}. TITEL</div><div class="h1">${esc(o.w)}</div></div></div>
+    ${o.f?`<div class="fin-row" style="margin-top:12px"><div class="t" data-pr="${esc(o.w)}"><b>${esc(o.w)}</b></div><div class="sc">${esc(o.s)}</div><div class="t" data-pr="${esc(o.f)}"><span>${esc(o.f)}</span></div></div>`:`<p class="mut sm">Für dieses Jahr sind in der Chronik nur die Sieger erfasst.</p>`}
+    <div class="yrnav">${pv?`<button class="btn sm" data-go="pokal-${pv.y}">‹ ${pv.y}</button>`:"<span></span>"}${nx?`<button class="btn sm" data-go="pokal-${nx.y}">${nx.y} ›</button>`:"<span></span>"}</div></div>
+    <div class="card"><div class="lb">// ALLE POKALSIEGE VON ${esc(o.w.toUpperCase())} (${all.length})</div><div class="sm">${all.map(x=>`<a class="yr ${x.y===o.y?"cur":""}" data-go="pokal-${x.y}">${x.y}</a>`).join(" ")}</div>${lost.length?`<div class="sm" style="margin-top:8px">Verlorene Finals (seit 1985): ${lost.map(x=>`<a class="yr" data-go="pokal-${x.y}">${x.y}</a>`).join(" ")}</div>`:""}</div>`;return}
+  const key="pokal-list",tab=tabOf(key,"t");crumb([[a.t,null]]);
+  const body=tab==="t"?`<div class="tiles">${POKAL.slice().reverse().map(o=>`<div class="yt" data-go="pokal-${o.y}"><div class="y">${o.y}</div><div class="w">${esc(o.w)}</div><div class="s">${o.f?esc(o.s)+" · "+esc(o.f):"Sieger"}</div></div>`).join("")}</div>`:`<div class="two"><div class="card"><h3>🏆 Rekord-Pokalsieger</h3>${bars(count(POKAL,"w"),12)}</div><div class="card"><h3>😢 Verlorene Finals (seit 1985)</h3>${bars(count(POKAL.filter(o=>o.f),"f"),10)}</div></div>`;
+  app.innerHTML=ph(a,a.t,"Alle Sieger seit 1953 – Finals in Berlin seit 1985 mit Ergebnis")+kp([[POKAL.length,"Sieger"],["21×","Bayern (Rekord)"]])+seg(key,[["t","📅 Jahre"],["s","📊 Statistik"]])+body;
+};
+
+/* ================== WEITERE BEREICHE ================== */
+V.ligen=a=>{crumb([[a.t,null]]);
+  app.innerHTML=ph(a,a.t,"Die Meister der fünf großen Ligen – letzte zehn Jahre")+`<div class="card" style="padding:0;overflow:auto"><table class="tb"><thead><tr><th>Saison</th>${Object.keys(LIGEN).map(k=>`<th>${k}</th>`).join("")}</tr></thead><tbody>${LIGEN_J.map((j,i)=>[j,i]).reverse().map(([j,i])=>`<tr><td class="y">${j}</td>${Object.values(LIGEN).map(x=>`<td data-pr="${esc(x[i])}">${esc(x[i])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+  <div class="two" style="margin-top:12px">${Object.entries(LIGEN).map(([k,x])=>`<div class="card"><h3>${k}</h3>${bars(count(x.map(w=>({w})),"w"),5)}</div>`).join("")}</div>
+  <div class="card"><div class="lb">// TORSCHÜTZENKÖNIGE 2025/26</div><div class="pod">🇩🇪 Bundesliga: <b>Harry Kane</b> (36)</div><div class="pod">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League: <b>Erling Haaland</b> (27)</div><div class="pod">🇮🇹 Serie A: <b>Lautaro Martínez</b></div><div class="pod">⭐ Champions League: <b>Kylian Mbappé</b> (15)</div><div class="pod">🇪🇺 Goldener Schuh: <b>Harry Kane</b></div></div>`};
+V.copa=a=>{crumb([[a.t,null]]);
+  app.innerHTML=ph(a,a.t,"Die Südamerika-Meisterschaft – das älteste Nationen-Turnier der Welt")+kp([[COPA.length,"Turniere"],["16×","Argentinien"],["15×","Uruguay"],["9×","Brasilien"]])+`<div class="card"><h3>🏆 Titel nach Ländern</h3>${bars(count(COPA,"w"),10)}</div><div class="tiles">${COPA.slice().reverse().map(o=>`<div class="yt" data-pr="${esc(o.w)}"><div class="y">${esc(o.y)}</div><div class="w"><span class="bf">${fo(o.w)}</span>${esc(o.w)}</div></div>`).join("")}</div>`};
+V.weitere=(a,item)=>{
+  const w=item&&WEITERE.find(x=>x.id===item);
+  if(w){crumb([[a.t,"weitere"],[w.t,null]]);const hasF=w.d.some(o=>o.s);
+    app.innerHTML=ph(a,w.ic+" "+esc(w.t),w.n||"")+`<div class="card"><h3>🏆 Rekordsieger</h3>${bars(count(w.d,"w"),6)}</div>`+`<div class="list">${w.d.slice().reverse().map(o=>`<div class="card row" data-pr="${esc(o.w)}"><div class="y">${o.y}</div><div><b>${fo(o.w)} ${esc(o.w)}</b>${hasF&&o.f?`<div class="mut sm">${esc(o.s)} gegen ${fo(o.f)} ${esc(o.f)}</div>`:""}</div><span class="arr">›</span></div>`).join("")}</div>`;return}
+  crumb([[a.t,null]]);
+  app.innerHTML=ph(a,a.t,"Frauen-Fußball, Nations League, Klub-WM und der Pokalsieger-Wettbewerb")+`<div class="bento">${WEITERE.map((x,i)=>`<div class="bt ${i<2?"big":""}" style="--c:${a.col}" data-go="weitere-${x.id}"><div class="lb">${String(i+1).padStart(2,"0")} // ${x.d.length} SIEGER</div><div class="tt">${esc(x.t)}</div><div class="st">Zuletzt: <span class="hl">${esc(x.d[x.d.length-1].w)} (${x.d[x.d.length-1].y})</span></div><div class="em">${x.ic.slice(-2)}</div><div class="arr">→</div></div>`).join("")}</div>`};
+V.rekorde=a=>{crumb([[a.t,null]]);const tab=tabOf("rek","r");
+  app.innerHTML=ph(a,a.t,"Die wichtigsten Bestmarken der Fußballgeschichte")+seg("rek",[["r","📊 Rekorde"],["f","💡 Fakten"]])+(tab==="r"?`<div class="rek">${REK.map(r=>`<div class="card"><div style="font-size:24px">${r[0]}</div><div class="lb" style="margin-top:4px">${esc(r[1].toUpperCase())}</div><div class="val">${esc(r[2])}</div><div class="mut sm">${esc(r[3])}</div></div>`).join("")}</div>`:`<div class="list">${FAKTEN.map((f,i)=>`<div class="card row"><div class="y">${String(i+1).padStart(2,"0")}</div><div>${esc(f)}</div></div>`).join("")}</div>`)};
+V.ranglisten=a=>{crumb([[a.t,null]]);
+  const all=[...CL,...EL,...ECL,...WEITERE.find(w=>w.id==="ppc").d];
+  app.innerHTML=ph(a,a.t,"Automatisch aus allen Daten berechnet – tippe auf einen Namen für das Profil")+`<div class="two">
+   <div class="card"><h3>🇪🇺 Die meisten Europapokale</h3>${bars(count(all,"w"),15)}</div>
+   <div class="card"><h3>🌍 WM + EM Titel zusammen</h3>${bars(count([...WM,...EM],"w"),12)}</div>
+   <div class="card"><h3>🥈 WM-Finalteilnahmen</h3>${bars(count(WM,o=>[o.w,o.f]),12)}</div>
+   <div class="card"><h3>🔝 WM unter den letzten Vier</h3>${bars(count(WM,o=>[o.w,o.f,o.p3,o.p4]),12)}</div>
+   <div class="card"><h3>⭐ CL-Finalteilnahmen</h3>${bars(count(CL,o=>[o.w,o.f]),12)}</div>
+   <div class="card"><h3>🇩🇪 Bundesliga + DFB-Pokal</h3>${bars(count([...BL.map(o=>({w:o.w})),...POKAL],"w"),12)}</div></div>`};
+V.lexikon=a=>{crumb([[a.t,null]]);app.innerHTML=ph(a,a.t,"Begriffe und Regeln einfach erklärt")+`<div class="list">${LEX.map(([t,d])=>`<details class="card lex"><summary>${esc(t)}</summary><p>${esc(d)}</p></details>`).join("")}</div>`};
+
+/* ================== QUIZ ================== */
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function mkQ(){const gens=[
+ ()=>{const o=pick(WM);return[`Wer wurde ${o.y} Fußball-Weltmeister?`,o.w,[...new Set(WM.map(x=>x.w))]]},
+ ()=>{const o=pick(WM);return[`Wo fand die WM ${o.y} statt?`,o.h,[...new Set(WM.map(x=>x.h))]]},
+ ()=>{const o=pick(WM.filter(x=>x.tg>4));return[`Wer war Torschützenkönig der WM ${o.y}?`,o.ts,WM.filter(x=>x.tg>4).map(x=>x.ts)]},
+ ()=>{const o=pick(WM);return[`Gegen wen gewann ${o.w} das WM-Finale ${o.y}?`,o.f,[...new Set(WM.map(x=>x.f))].filter(x=>x!==o.w)]},
+ ()=>{const o=pick(WM.filter(x=>x.r32||x.r16));const k=o.r32?"r32":"r16";const m=pick(o[k]);return[`WM ${o.y}, ${RNL[k]}: Wer gewann ${m[0]} gegen ${m[1]}?`.replace(/Wer gewann (.+) gegen (.+)\?/,"Wer setzte sich durch: $1 oder $2?"),m[0],[m[1],...shuffle([...new Set(WM.map(x=>x.w))]).slice(0,4)]]},
+ ()=>{const o=pick(EM);return[`Wer wurde ${tourLabel(o)} Europameister?`,o.w,[...new Set(EM.map(x=>x.w))]]},
+ ()=>{const o=pick(CL);return[`Wer gewann ${o.y} den Landesmeister-Pokal / die Champions League?`,o.w,[...new Set(CL.map(x=>x.w))]]},
+ ()=>{const o=pick(CL);return[`Wo fand das CL-/Landesmeister-Finale ${o.y} statt?`,o.o,[...new Set(CL.map(x=>x.o))]]},
+ ()=>{const o=pick(EL);return[`Wer gewann ${o.y} den UEFA-Pokal / die Europa League?`,o.w,[...new Set(EL.map(x=>x.w))]]},
+ ()=>{const o=pick(BDO);return[`Wer gewann ${o.y} den Ballon d'Or?`,o.p,[...new Set(BDO.map(x=>x.p))]]},
+ ()=>{const o=pick(BL);return[`Wer wurde ${o.y} Deutscher Meister?`,o.w,[...new Set(BL.map(x=>x.w))]]},
+ ()=>{const o=pick(BL.filter(x=>!x.ts.includes("&")));return[`Wer war ${o.y} Bundesliga-Torschützenkönig?`,o.ts.replace(/\s*\(.*\)/,""),[...new Set(BL.filter(x=>!x.ts.includes("&")).map(x=>x.ts.replace(/\s*\(.*\)/,"")))]]},
+ ()=>{const o=pick(POKAL);return[`Wer gewann ${o.y} den DFB-Pokal?`,o.w,[...new Set(POKAL.map(x=>x.w))]]},
+ ()=>{const r=pick(REK);return[`${r[1]}?`,r[2],REK.map(x=>x[2])]}];
+ const[q,an,pool]=pick(gens)();return{q,a:an,opts:shuffle([an,...shuffle([...new Set(pool)].filter(x=>x!==an)).slice(0,3)])}}
+function hsGet(){try{return +localStorage.getItem("fc_hs")||0}catch(e){return 0}}
+function hsSet(v){try{localStorage.setItem("fc_hs",v)}catch(e){}}
+let QZ=null;
+V.quiz=a=>{crumb([[a.t,null]]);app.innerHTML=ph(a,a.t,"10 zufällige Fragen aus der ganzen Chronik – jedes Mal neu")+`<div class="card quiz" id="qz"></div>`;QZ={i:0,p:0,qs:Array.from({length:10},mkQ)};qShow()};
+function qShow(){const el=document.getElementById("qz");if(!el)return;
+  if(QZ.i>=10){const hs=Math.max(hsGet(),QZ.p);hsSet(hs);const msg=QZ.p===10?"Perfekt – echter Fußball-Experte! 🏆":QZ.p>=7?"Stark – fast Weltmeister-Niveau! 💪":QZ.p>=4?"Gut gemacht – da geht noch mehr! ⚽":"Weiter üben – die Chronik hilft dir! 📖";
+    el.innerHTML=`<div style="text-align:center;padding:10px"><div style="font-size:50px">🏆</div><div class="val">${QZ.p} / 10</div><p>${msg}</p><p class="mut">Dein Rekord: ${hs} Punkte</p><button class="btn pri" id="qa">Nochmal spielen</button></div>`;document.getElementById("qa").onclick=()=>V.quiz(A.quiz);return}
+  const q=QZ.qs[QZ.i];el.dataset.lock="0";
+  el.innerHTML=`<div class="lb">// FRAGE ${QZ.i+1} VON 10 · PUNKTE ${QZ.p} · REKORD ${hsGet()}</div><div class="prog"><i style="width:${QZ.i*10}%"></i></div><h3 style="font-size:19px;margin:12px 0">${esc(q.q)}</h3>${q.opts.map(o=>`<button class="opt" data-o="${esc(o)}">${fl(o)}${esc(o)}</button>`).join("")}<div id="qn"></div>`;
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(el.dataset.lock==="1")return;el.dataset.lock="1";const ok=b.dataset.o===q.a;if(ok)QZ.p++;
+    el.querySelectorAll(".opt").forEach(x=>{if(x.dataset.o===q.a)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+    document.getElementById("qn").innerHTML=`<p><b>${ok?"✅ Richtig!":"❌ Leider falsch – richtig: "+esc(q.a)}</b></p><button class="btn pri" id="qx">${QZ.i===9?"Ergebnis anzeigen":"Nächste Frage →"}</button>`;
+    document.getElementById("qx").onclick=()=>{QZ.i++;qShow()}})}
+
+/* ================== PROFIL (Verein / Land) ================== */
+function yrs(list,h){return list.map(y=>h?`<a class="yr" data-go="${h(y)}">${y}</a>`:`<span class="yr">${y}</span>`).join(" ")}
+function profile(name){
+  const S=[];const add=(t,list,h)=>{if(list.length)S.push(`<div class="psec"><div class="lb">// ${t} · ${list.length}×</div><div class="sm">${yrs(list,h)}</div></div>`)};
+  const isNat=!!NAT[name]&&!CLUBMAP[name];
+  if(isNat){
+    add("WELTMEISTER",WM.filter(o=>o.w===name).map(o=>o.y),y=>"wm-"+y);
+    add("WM-FINALE VERLOREN",WM.filter(o=>o.f===name).map(o=>o.y),y=>"wm-"+y);
+    add("WM-PLATZ 3",WM.filter(o=>o.p3===name&&o.p3s!=="HF").map(o=>o.y),y=>"wm-"+y);
+    add("WM-GASTGEBER",WM.filter(o=>o.h.includes(name)).map(o=>o.y),y=>"wm-"+y);
+    add("EUROPAMEISTER",EM.filter(o=>o.w===name).map(o=>o.y),y=>"em-"+y);
+    add("EM-FINALE VERLOREN",EM.filter(o=>o.f===name).map(o=>o.y),y=>"em-"+y);
+    add("EM-HALBFINALE / PLATZ 3",EM.filter(o=>o.p3===name||o.p4===name).map(o=>o.y),y=>"em-"+y);
+    add("COPA AMÉRICA",COPA.filter(o=>o.w===name).map(o=>o.y));
+    WEITERE.filter(w=>w.nat).forEach(w=>add(w.t.toUpperCase(),w.d.filter(o=>o.w===name).map(o=>o.y),()=>"weitere-"+w.id));
+    add("BALLON D'OR",BDO.filter(o=>o.n===name).map(o=>o.y+" "+o.p));
+    const ko=[];WM.forEach(o=>["r32","r16","qf","sf"].forEach(k=>(o[k]||[]).forEach(m=>{if(m[0]===name||m[1]===name)ko.push([o.y,k,m])})));
+    if(ko.length){const w=ko.filter(x=>x[2][0]===name).length;S.push(`<div class="psec"><div class="lb">// WM-K.-O.-SPIELE IN DER CHRONIK · ${w} SIEGE / ${ko.length-w} NIEDERLAGEN</div>${ko.slice().reverse().slice(0,12).map(([y,k,m])=>`<div class="mrow mini" data-go="wm-${y}"><div class="a">${y} ${RN[k]}</div><div class="sc">${esc(m[2])}</div><div class="b">${m[0]===name?"✅ gegen "+esc(m[1]):"❌ gegen "+esc(m[0])}</div></div>`).join("")}</div>`)}
+  } else {
+    [["CHAMPIONS LEAGUE",CL,"cl"],["EUROPA LEAGUE / UEFA-POKAL",EL,"el"],["CONFERENCE LEAGUE",ECL,"ecl"]].forEach(([t,D,id])=>{add(t,D.filter(o=>o.w===name).map(o=>o.y),y=>id+"-"+y);add(t+" – FINALE VERLOREN",D.filter(o=>o.f===name).map(o=>o.y),y=>id+"-"+y)});
+    WEITERE.filter(w=>!w.nat).forEach(w=>add(w.t.toUpperCase(),w.d.filter(o=>o.w===name).map(o=>o.y),()=>"weitere-"+w.id));
+    add("DEUTSCHER MEISTER (BUNDESLIGA)",BL.filter(o=>o.w===name).map(o=>o.y),y=>"bundesliga-"+keyOf(y));
+    add("DFB-POKAL",POKAL.filter(o=>o.w===name).map(o=>o.y),y=>"pokal-"+y);
+    add("DFB-POKAL – FINALE VERLOREN",POKAL.filter(o=>o.f===name).map(o=>o.y),y=>"pokal-"+y);
+    const lg=[];Object.entries(LIGEN).forEach(([k,x])=>x.forEach((w,i)=>{if(w===name)lg.push(LIGEN_J[i])}));add("LANDESMEISTER (LETZTE 10 JAHRE)",lg,()=>"ligen");
+    add("BALLON-D'OR-SIEGER IM VEREIN",BDO.filter(o=>o.c===name).map(o=>o.y+" "+o.p));
+  }
+  const tot=S.length;
+  openSheet(`<div class="lb">// ${isNat?"LÄNDERPROFIL":"VEREINSPROFIL"}</div><div class="champ"><span class="bigflag">${fo(name)||"🛡️"}</span><div class="h1">${esc(name)}</div></div>${tot?S.join(""):`<p class="mut">Für ${esc(name)} sind in dieser Chronik keine weiteren Titel erfasst.</p>`}`);
+}
+
+/* ================== SHEET ================== */
+function openSheet(html){const s=document.getElementById("sheet");s.querySelector(".sb").innerHTML=html;s.classList.add("open");document.body.style.overflow="hidden"}
+function closeSheet(){const s=document.getElementById("sheet");s.classList.remove("open");document.body.style.overflow=""}
+function matchSheet(i){const {m,rk}=MATCHES[i];
+  openSheet(`<div class="lb">// ${RNL[rk].toUpperCase()}</div><div class="fin-row big"><div class="t" data-pr="${esc(m[0])}"><span class="bf">${fo(m[0])}</span><b>${esc(m[0])}</b><span class="mut sm">${rk==="p3"?"Platz 3":rk==="f"?"Sieger":"weiter"}</span></div><div class="sc">${esc(m[2]||"–")}</div><div class="t" data-pr="${esc(m[1])}"><span class="bf">${fo(m[1])}</span><span>${esc(m[1])}</span><span class="mut sm">${rk==="p3"?"Platz 4":rk==="f"?"Finalist":"ausgeschieden"}</span></div></div>${m[3]?`<p class="mut sm" style="text-align:center">📅 ${esc(m[3])}</p>`:""}<div class="next"><button class="btn" data-pr="${esc(m[0])}">${fo(m[0])} Profil ${esc(m[0])}</button><button class="btn" data-pr="${esc(m[1])}">${fo(m[1])} Profil ${esc(m[1])}</button></div>`)}
+
+/* ================== KLICKS ================== */
+document.addEventListener("click",e=>{
+  const sh=document.getElementById("sheet");
+  if(e.target.closest("[data-close]")||e.target===sh){closeSheet();return}
+  const mi=e.target.closest("[data-mi]");if(mi){matchSheet(+mi.dataset.mi);return}
+  const pr=e.target.closest("[data-pr]");if(pr&&pr.dataset.pr){profile(pr.dataset.pr);return}
+  const t=e.target.closest("[data-tab]");if(t){TAB[t.parentElement.dataset.seg]=t.dataset.tab;render();return}
+  const tg=e.target.closest("[data-tab-go]");if(tg){const sg=document.querySelector("[data-seg]");TAB[sg.dataset.seg]=tg.dataset.tabGo;render();return}
+  const g=e.target.closest("[data-go]");if(g){closeSheet();go(g.dataset.go);return}
+});
+
+/* ================== SUCHE ================== */
+const IDX=[];
+WM.forEach(o=>IDX.push({h:"wm-"+o.y,tag:"WM",t:`WM ${o.y}: ${o.w} – ${o.f} ${o.s}`,d:`${o.h} · Platz 3: ${o.p3} · Torschützenkönig: ${o.ts}${o.bp?" · Bester Spieler: "+o.bp:""}`}));
+WM.forEach(o=>["r32","r16","qf","sf"].forEach(k=>(o[k]||[]).forEach(m=>IDX.push({h:"wm-"+o.y,tag:"WM-Spiel",t:`WM ${o.y} ${RNL[k]}: ${m[0]} – ${m[1]} ${m[2]}`,d:m[3]||""}))));
+EM.forEach(o=>IDX.push({h:"em-"+o.y,tag:"EM",t:`EM ${tourLabel(o)}: ${o.w} – ${o.f} ${o.s}`,d:`${o.h} · ${o.p3}, ${o.p4} · Torschützenkönig: ${o.ts}`}));
+[[CL,"cl","CL"],[EL,"el","EL"],[ECL,"ecl","ECL"]].forEach(([D,id,tg])=>D.forEach(o=>IDX.push({h:id+"-"+o.y,tag:tg,t:`${o.y}: ${o.w} – ${o.f} ${o.s}`,d:o.o!=="–"?"Finale in "+o.o:"Hin- & Rückspiel"})));
+BDO.forEach(o=>IDX.push({h:"ballon-"+o.y,tag:"Ballon d'Or",t:`${o.y}: ${o.p}`,d:`${o.n} · ${o.c}`}));
+BL.forEach(o=>IDX.push({h:"bundesliga-"+keyOf(o.y),tag:"Bundesliga",t:`${o.y}: Meister ${o.w}`,d:`Torschützenkönig: ${o.ts} – ${o.tg} Tore`}));
+POKAL.forEach(o=>IDX.push({h:"pokal-"+o.y,tag:"DFB-Pokal",t:`${o.y}: ${o.w}`,d:o.f?`Finale ${o.s} gegen ${o.f}`:""}));
+COPA.forEach(o=>IDX.push({h:"copa",tag:"Copa",t:`${o.y}: ${o.w}`,d:"Copa América"}));
+WEITERE.forEach(w=>w.d.forEach(o=>IDX.push({h:"weitere-"+w.id,tag:w.t.split(" (")[0],t:`${o.y}: ${o.w}`,d:o.f?`Finale ${o.s} gegen ${o.f}`:""})));
+REK.forEach(r=>IDX.push({h:"rekorde",tag:"Rekord",t:`${r[1]}: ${r[2]}`,d:r[3]}));
+const sq=document.getElementById("sq");
+document.getElementById("sbtn").onclick=()=>{document.body.classList.toggle("srch");if(document.body.classList.contains("srch"))sq.focus();else render()};
+sq.addEventListener("input",()=>{const v=sq.value.toLowerCase().trim();if(!v){render();return}
+  const words=v.split(/\s+/),res=IDX.filter(e=>{const s=(e.tag+" "+e.t+" "+e.d).toLowerCase();return words.every(w=>s.includes(w))});
+  setAcc("#f5c542");crumbs.innerHTML=`<a data-go="">⌂ start</a> <span>›</span> <b>Suche</b>`;
+  app.innerHTML=`<div class="ph"><div class="lb">// SUCHE · ${res.length} TREFFER</div><h1>„${esc(sq.value)}“</h1></div><div class="card" style="padding:4px 0">${res.slice(0,300).map(e=>`<div class="res" data-go="${e.h}"><span class="tag">${esc(e.tag)}</span><b>${esc(e.t)}</b><br><small>${esc(e.d)}</small></div>`).join("")||`<p class="mut" style="padding:12px">Nichts gefunden – versuch einen anderen Begriff.</p>`}</div>`});
+
+/* ================== DARSTELLUNG (Dunkel / Hell / Eigene) ================== */
+const TH=(()=>{const d={mode:"light",bg:"#1e2a3a",acc:"#f5c542",useArea:true};try{return Object.assign(d,JSON.parse(localStorage.getItem("fc_theme")||"{}"))}catch(e){return d}})();
+function thSave(){try{localStorage.setItem("fc_theme",JSON.stringify(TH))}catch(e){}}
+const hx=h=>{h=h.replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");return[0,2,4].map(i=>parseInt(h.substr(i,2),16))};
+const toHex=a=>"#"+a.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,"0")).join("");
+const mix=(a,b,t)=>{const A=hx(a),B=hx(b);return toHex(A.map((v,i)=>v+(B[i]-v)*t))};
+const lum=h=>{const[r,g,b]=hx(h);return(0.299*r+0.587*g+0.114*b)/255};
+const CVARS=["--bg","--card","--card2","--line","--txt","--txt2","--mut","--hd","--inset","--grid","--line2","--bk1","--bk2","--bkl","--mbbg","--mbb","--mbc","--sheet"];
+function applyTheme(){
+  const R=document.documentElement;CVARS.forEach(v=>R.style.removeProperty(v));
+  if(TH.mode==="custom"){
+    const b=TH.bg,dark=lum(b)<0.55,W="#ffffff",K="#000000";R.dataset.th=dark?"dark":"light";
+    const V=dark?{"--bg":b,"--card":mix(b,W,.05),"--card2":mix(b,W,.09),"--line":mix(b,W,.13),"--txt":"#eef2f8","--txt2":"#cdd5e2","--mut":mix(b,W,.55),"--inset":mix(b,K,.3),"--grid":"rgba(255,255,255,.03)","--line2":mix(b,W,.18),"--bk1":mix(b,W,.06),"--bk2":mix(b,K,.25),"--bkl":mix(b,W,.3),"--mbbg":mix(b,W,.08),"--mbb":mix(b,W,.22),"--mbc":"#d5dcea","--sheet":mix(b,W,.04)}
+      :{"--bg":b,"--card":mix(b,W,.75),"--card2":mix(b,W,.45),"--line":mix(b,K,.12),"--txt":"#121826","--txt2":"#333c4d","--mut":mix(b,K,.55),"--inset":mix(b,W,.4),"--grid":"rgba(0,0,0,.04)","--line2":mix(b,K,.18),"--bk1":mix(b,W,.6),"--bk2":mix(b,W,.3),"--bkl":mix(b,K,.3),"--mbbg":"#ffffff","--mbb":mix(b,K,.2),"--mbc":"#3d4a63","--sheet":mix(b,W,.85)};
+    const[r,g,bl]=hx(b);V["--hd"]=`rgba(${r},${g},${bl},.93)`;
+    Object.entries(V).forEach(([k,v])=>R.style.setProperty(k,v));
+  } else R.dataset.th=TH.mode;
+  document.getElementById("tbtn").textContent=TH.mode==="dark"?"🌙":TH.mode==="light"?"☀️":"🎨";
+}
+const BGS=[["#ffffff","Weiß"],["#f4efe6","Sand"],["#e8eef7","Hellblau"],["#d9dee6","Hellgrau"],["#3b4252","Schiefer"],["#1e2a3a","Nachtblau"],["#2b1f33","Pflaume"],["#111111","Schwarz"]];
+const ACCS=["#f5c542","#ff4d5e","#4c8dff","#22c55e","#9b8cff","#ff8a3d","#2dd4bf","#f472b6"];
+function themeSheet(){
+  openSheet(`<div class="lb">// DARSTELLUNG</div><h3 style="font-size:20px;margin:6px 0 0">Wie soll die App aussehen?</h3>
+  <div class="thg">${[["dark","🌙","Dunkel"],["light","☀️","Hell"],["custom","🎨","Eigene"]].map(([m,i,l])=>`<button class="thb ${TH.mode===m?"on":""}" data-thm="${m}"><span>${i}</span>${l}</button>`).join("")}</div>
+  ${TH.mode==="custom"?`<div class="lb">// HINTERGRUND</div><div class="sw">${BGS.map(([c,n])=>`<button title="${n}" style="background:${c}" class="${TH.bg===c?"on":""}" data-bg="${c}"></button>`).join("")}<input type="color" id="cbg" value="${TH.bg}" title="Eigene Farbe"></div>
+  <div class="lb">// AKZENTFARBE</div><label class="tgl"><input type="checkbox" id="cua" ${TH.useArea?"checked":""}> Jeder Bereich behält seine eigene Farbe</label>
+  ${TH.useArea?"":`<div class="sw">${ACCS.map(c=>`<button style="background:${c}" class="${TH.acc===c?"on":""}" data-ac="${c}"></button>`).join("")}<input type="color" id="cac" value="${TH.acc}" title="Eigene Farbe"></div>`}
+  <p class="mut sm">Tipp: Wähle ein Feld – oder tippe auf das große Farbfeld rechts für jede beliebige Farbe. Bei hellen Farben wird die Schrift automatisch dunkel.</p>`:`<p class="mut sm">Mit „Eigene“ wählst du Hintergrund und Akzentfarbe selbst.</p>`}`);
+  const sb=document.querySelector("#sheet .sb");
+  const upd=re=>{thSave();applyTheme();render2();if(re)themeSheet()};
+  sb.querySelectorAll("[data-thm]").forEach(b=>b.onclick=()=>{TH.mode=b.dataset.thm;upd(1)});
+  sb.querySelectorAll("[data-bg]").forEach(b=>b.onclick=()=>{TH.bg=b.dataset.bg;upd(1)});
+  sb.querySelectorAll("[data-ac]").forEach(b=>b.onclick=()=>{TH.acc=b.dataset.ac;upd(1)});
+  const cbg=sb.querySelector("#cbg");if(cbg)cbg.oninput=()=>{TH.bg=cbg.value;upd(0)};
+  const cac=sb.querySelector("#cac");if(cac)cac.oninput=()=>{TH.acc=cac.value;upd(0)};
+  const cua=sb.querySelector("#cua");if(cua)cua.onchange=()=>{TH.useArea=cua.checked;upd(1)};
+}
+function render2(){const r=route();const a=A[r.p];setAcc(r.p==="home"?"#f5c542":a?a.col:"#f5c542")}
+document.getElementById("tbtn").onclick=themeSheet;
+applyTheme();
+
+render();
+</script>
+</body>
+</html>
