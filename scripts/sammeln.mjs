@@ -104,10 +104,11 @@ function writeJSON(p, obj) {
 const dayFile = d => path.join(DATA, "tage", d + ".json");
 const matchFile = (id, date) => path.join(DATA, "spiele", date.slice(0, 7), id + ".json");
 const tableFile = id => path.join(DATA, "tabellen", id + ".json");
-const log = (...a) => console.log(...a);
+const LOGLINES = [];
+const log = (...a) => { const s = a.join(" "); LOGLINES.push(s); console.log(s); };
 
 /* ---------------- Abruf ---------------- */
-let calls = 0, lastCall = 0, budget = 0, stopped = "";
+let calls = 0, lastCall = 0, budget = 0, stopped = "", dateWindow = null;
 async function api(endpoint, params, { free = false } = {}) {
   if (!free) {
     if (calls >= budget) { stopped = "Tagesbudget für diesen Lauf aufgebraucht"; return null; }
@@ -129,7 +130,9 @@ async function api(endpoint, params, { free = false } = {}) {
     const msg = errs.join(" · ");
     if (/per minute|too many/i.test(msg) && attempt === 0) { log("  … Minuten-Grenze, warte 65 s"); await sleep(65000); continue; }
     if (/request limit for the day/i.test(msg)) { stopped = "Tageskontingent von API-Football aufgebraucht"; budget = calls; }
-    log("  ! API-Fehler", endpoint, msg);
+    log("  ! API-Fehler", endpoint, qs, msg);
+    const win = msg.match(/from (\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})/);
+    if (win) dateWindow = {from: win[1], to: win[2]};
     return null;
   }
   return null;
@@ -282,6 +285,7 @@ async function main() {
   let gotDetails = 0, gotTables = 0, gotDays = 0;
   for (const t of tasks) {
     if (calls >= budget) break;
+    if (t.kind === "backfill" && dateWindow && (t.date < dateWindow.from || t.date > dateWindow.to)) continue;
     if (t.kind === "details") {
       const ids = t.chunk.map(x => x.id);
       const r = await api("fixtures", ids.length > 1 ? { ids: ids.join("-"), timezone: TZ } : { id: ids[0], timezone: TZ });
@@ -338,10 +342,12 @@ async function main() {
   writeJSON(path.join(DATA, "index.json"), {
     updated: new Date().toISOString(),
     plan: { used: used + calls, limit, pro },
-    days, tables: tableList,
+    days, tables: tableList, window: dateWindow,
     lastRun: { calls, details: gotDetails, tables: gotTables, backfill: gotDays, open: Math.max(0, pending.length - gotDetails), note: stopped || null }
   });
+  if (dateWindow) log(`Hinweis: Der Gratis-Plan erlaubt nur Tage von ${dateWindow.from} bis ${dateWindow.to}.`);
   log(`Fertig: ${calls} Abrufe · ${gotDetails} Spiele mit Details · ${gotTables} Tabellen · ${gotDays} alte Tage${stopped ? " · Stopp: " + stopped : ""}`);
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch(e => { console.error(e); LOGLINES.push("FEHLER: " + (e && e.stack || e)); process.exitCode = 1; })
+  .finally(() => { try { writeJSON(path.join(DATA, "protokoll.json"), {at: new Date().toISOString(), lines: LOGLINES.slice(-200)}); } catch (e) {} });
