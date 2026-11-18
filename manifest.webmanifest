@@ -1,11 +1,11 @@
 {
-  "name": "Fußball Live",
-  "short_name": "Fußball",
+  "name": "Bayazit Fußball-Ergebnisse",
+  "short_name": "Ergebnisse",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#06080c",
+  "theme_color": "#06080c",
   "icons": [
     {
       "src": "icons/fussball-192.png",

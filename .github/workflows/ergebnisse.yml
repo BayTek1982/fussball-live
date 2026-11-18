@@ -1,0 +1,48 @@
+name: Ergebnisse sammeln
+
+on:
+  schedule:
+    # Uhrzeiten in UTC (deutsche Winterzeit = UTC+1, Sommerzeit = UTC+2)
+    - cron: "40 0 * * *"    # nachts: Rest vom Vortag
+    - cron: "40 5 * * *"    # früh: Rest vom Vortag, alte Spieltage nachholen
+    - cron: "20 11,13,15,17,19,21,23 * * *"   # tagsüber/abends: beendete Spiele
+  workflow_dispatch: {}      # „Run workflow“-Knopf zum sofortigen Starten
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ergebnisse
+  cancel-in-progress: false
+
+jobs:
+  sammeln:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Daten holen
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: node scripts/sammeln.mjs
+
+      - name: Speichern
+        run: |
+          git config user.name "Ergebnis-Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "Nichts Neues."
+            exit 0
+          fi
+          git commit -m "Ergebnisse $(TZ=Europe/Berlin date '+%d.%m.%Y %H:%M')"
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" && git push && exit 0
+            sleep 5
+          done
+          exit 1
