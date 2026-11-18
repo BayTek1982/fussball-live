@@ -297,6 +297,7 @@ function roundDe(r) {
   if ((m = r.match(/^(Regular Season|League Stage|League Phase)\s*-\s*(\d+)/i))) return m[2] + ". Spieltag";
   if ((m = r.match(/^Group\s+(\w+)\s*-\s*(\d+)/i))) return "Gruppe " + m[1] + ", " + m[2] + ". Spieltag";
   if ((m = r.match(/^Group Stage\s*-\s*(\d+)/i))) return "Gruppenphase, " + m[1] + ". Spieltag";
+  if ((m = r.match(/^League\s+(\w)\s*-\s*(\d+)/i))) return "Liga " + m[1] + ", " + m[2] + ". Spieltag";
   return ROUND_MAP[r] || r.replace("Round of", "Runde der letzten");
 }
 function statusShort(f) {
@@ -722,7 +723,7 @@ function pitchPlayers(lu, isHome, maps) {
     arr.sort((a, b) => a.c - b.c);
     arr.forEach((o, i) => {
       let x = (i + 1) / (arr.length + 1) * 100;
-      let y = R > 1 ? 7.5 + (r - 1) * (35 / (R - 1)) : 25;
+      let y = R > 1 ? 6.5 + (r - 1) * (40.5 / (R - 1)) : 25;
       if (!isHome) { y = 100 - y; x = 100 - x; }
       out += plMarker(o.p, x, y, colors, maps);
     });
