@@ -7,6 +7,11 @@ on:
     - cron: "40 5 * * *"    # früh: Rest vom Vortag, alte Spieltage nachholen
     - cron: "20 11,13,15,17,19,21,23 * * *"   # tagsüber/abends: beendete Spiele
   workflow_dispatch: {}      # „Run workflow“-Knopf zum sofortigen Starten
+  push:                      # startet auch sofort, wenn der Sammler geändert wird
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/ergebnisse.yml"
 
 permissions:
   contents: write
