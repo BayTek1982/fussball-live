@@ -25,7 +25,7 @@ const DIRECT = "https://v3.football.api-sports.io";
 
 const RESERVE = Number(process.env.RESERVE || 4);          // so viele Abrufe pro Tag immer übrig lassen
 const MAX_RUN = Number(process.env.MAX_RUN || 0);          // 0 = automatisch
-const PAUSE_MS = Number(process.env.PAUSE_MS || 6500);     // Pause zwischen Abrufen (10/Minute)
+const PAUSE_MS = Number(process.env.PAUSE_MS || 13000);    // Pause zwischen Abrufen (Gratis-Plan ist streng)
 const BACKFILL_FROM = process.env.BACKFILL_FROM || "2026-08-01"; // so weit zurück werden alte Spieltage nachgeholt
 const DRY = process.env.DRY === "1";
 
@@ -243,6 +243,7 @@ async function main() {
       let score = f.league.rank + Math.min(age, 60) * 40;
       if (have) {
         if (isRich(have) || age > 1 || have.retried) continue;          // schon komplett
+        if (!pro && f.league.rank >= 500) continue;                    // Gratis-Plan: untere Ligen nicht nochmal
         score += 3000;                                                  // nur Grunddaten → später nochmal versuchen
       }
       pending.push({ id: f.fixture.id, date: d, score, retry: !!have });
@@ -262,8 +263,10 @@ async function main() {
 
   const tasks = [];
   // Details in Paketen à 20 Spiele, nach Wichtigkeit sortiert
-  for (let i = 0; i < pending.length; i += 20) {
-    const chunk = pending.slice(i, i + 20);
+  // Pro-Plan: 20 Spiele pro Abruf · Gratis-Plan: nur 1 Spiel pro Abruf (Sammelabruf gesperrt)
+  const per = pro ? 20 : 1;
+  for (let i = 0; i < pending.length; i += per) {
+    const chunk = pending.slice(i, i + per);
     tasks.push({ kind: "details", score: chunk[0].score, chunk });
   }
   // Tabellen: wichtige Ligen fast gleich wichtig wie Details, untere deutsche Ligen später
@@ -273,8 +276,10 @@ async function main() {
   }
   // Alte Spieltage nachholen (nur Liste; die Details kommen in späteren Läufen)
   const haveDays = new Set(files);
+  const prevIx = readJSON(path.join(DATA, "index.json"), {});
+  const minBack = !pro && prevIx.window ? addDays(today, -1) : BACKFILL_FROM;   // Gratis-Plan: nur gestern bis morgen erlaubt
   let back = addDays(today, -1), backCount = 0;
-  while (back >= BACKFILL_FROM && backCount < 3) {
+  while (back >= minBack && backCount < 3) {
     if (!haveDays.has(back)) { tasks.push({ kind: "backfill", score: 6000 + backCount, date: back }); backCount++; }
     back = addDays(back, -1);
   }
@@ -342,7 +347,7 @@ async function main() {
   writeJSON(path.join(DATA, "index.json"), {
     updated: new Date().toISOString(),
     plan: { used: used + calls, limit, pro },
-    days, tables: tableList, window: dateWindow,
+    days, tables: tableList, window: dateWindow || prevIx.window || null,
     lastRun: { calls, details: gotDetails, tables: gotTables, backfill: gotDays, open: Math.max(0, pending.length - gotDetails), note: stopped || null }
   });
   if (dateWindow) log(`Hinweis: Der Gratis-Plan erlaubt nur Tage von ${dateWindow.from} bis ${dateWindow.to}.`);

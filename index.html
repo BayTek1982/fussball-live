@@ -456,13 +456,14 @@ function renderList() {
   if (state.day === null) {
     $("#msg").innerHTML = msg; $("#kp").innerHTML = "";
     const t = todayStr();
-    root.innerHTML = `<div class="empty">${state.date > t ? "Für diesen Tag gibt es noch keine Ergebnisse." : state.date < (availDays()[0] || t) ? "Dieser Tag ist noch nicht gesammelt. Ältere Spieltage werden nach und nach automatisch nachgeholt." : "Für diesen Tag wurden noch keine Spiele gespeichert."}</div>`;
+    root.innerHTML = `<div class="empty">${state.date > t ? "Für diesen Tag gibt es noch keine Ergebnisse." : state.date < (availDays()[0] || t) ? "Dieser Tag wurde nicht gesammelt. Die Sammlung läuft seit dem 17.11.2026 – ab dann ist jeder Tag gespeichert." : "Für diesen Tag wurden noch keine Spiele gespeichert."}</div>`;
     return;
   }
   let list = state.day.fixtures;
   const open = list.filter(f => isDone(f) && !f._d).length;
   const upcoming = list.filter(f => !isDone(f) && !["PST", "CANC", "ABD"].includes(f.fixture.status.short)).length;
-  if (open) msg += `<div class="note warn">Bei ${open} beendeten Spielen werden Aufstellung und Statistik beim nächsten automatischen Abruf nachgeladen.</div>`;
+  const recent = state.date >= addDays(todayStr(), -1);
+  if (open && recent) msg += `<div class="note warn">Bei ${open} beendeten Spielen fehlen noch Aufstellung und Statistik. Sie werden nach und nach geholt – wichtige Ligen zuerst (Gratis-Plan: ca. 90 Spiele pro Tag).</div>`;
   else if (upcoming && state.date === todayStr()) msg += `<div class="note">${upcoming} Spiele heute sind noch nicht beendet – ihre Ergebnisse kommen nach Abpfiff beim nächsten Abruf.</div>`;
   $("#msg").innerHTML = msg;
   renderKP(list);
@@ -588,7 +589,9 @@ function renderMatch() {
 function noDetailNote(f) {
   if (!isDone(f)) return `<div class="card"><div class="ntxt">Das Spiel ist noch nicht beendet.<br>Nach Abpfiff werden beim nächsten automatischen Abruf alle Infos gespeichert.</div></div>`;
   if (["AWD", "WO"].includes(f.fixture.status.short)) return `<div class="card"><div class="ntxt">Dieses Spiel wurde gewertet – es gibt keine Spieldaten.</div></div>`;
-  return `<div class="card"><div class="ntxt">Die Details zu diesem Spiel werden beim nächsten automatischen Abruf gespeichert (mehrmals täglich).<br>Bei sehr vielen Spielen kann es bis zum nächsten Tag dauern.</div></div>`;
+  const d = state.matchDay || state.date;
+  if (d < addDays(todayStr(), -1)) return `<div class="card"><div class="ntxt">Für dieses Spiel wurden keine Details gespeichert.<br>Der Gratis-Plan der Datenquelle schafft ca. 90 Spiele pro Tag – wichtige Ligen werden zuerst geholt.</div></div>`;
+  return `<div class="card"><div class="ntxt">Die Details zu diesem Spiel werden bei einem der nächsten automatischen Abrufe gespeichert (mehrmals täglich), wichtige Ligen zuerst.</div></div>`;
 }
 function renderMatchPane() {
   const f = state.match, el = $("#mpane");
